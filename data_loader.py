@@ -18,7 +18,7 @@ from typing import Optional
 
 import pandas as pd
 
-from models import Product, SKU, Category, SupermarketModel
+from models import Product, SKU, Category, Placement, SupermarketModel
 
 DEFAULT_DATA_PATH = Path(__file__).parent / "data" / "supermarket_operations_data.xlsx"
 
@@ -147,11 +147,45 @@ def load_categories(path: Path) -> dict[tuple[str, str], Category]:
     return categories
 
 
+def load_placements(path: Path, skus: dict[str, SKU]) -> dict[str, Placement]:
+    """
+    Loads SKU Placements — a genuine one-to-many child table keyed by SKU
+    (ref) as a foreign key, NOT row-order-aligned to SKU Master. Current-
+    state-only: every row is an active placement. After loading, each
+    Placement is appended to its parent SKU's `.placements` list.
+    """
+    df = pd.read_excel(path, sheet_name="SKU Placements")
+    placements: dict[str, Placement] = {}
+    for d in df.to_dict(orient="records"):
+        placement_id = str(d["Placement ID"])
+        sku_id = str(d["SKU (ref)"])
+        sku = skus.get(sku_id)
+        if sku is None:
+            raise KeyError(f"Placement {placement_id} references SKU {sku_id}, which is not in SKU Master.")
+
+        placement = Placement(
+            placement_id=placement_id,
+            sku_id=sku_id,
+            placement_type=_clean_str(d["Placement Type"]),
+            location_description=_clean_str(d["Location Description"]),
+            fixture_type=_clean_str(d["Fixture Type"]),
+            facings=int(d["Facings"]),
+            linear_space_assigned_in=float(d["Linear Space Assigned (in)"]),
+            vendor_funded=_yn_to_bool(d["Vendor Funded (Y/N)"]),
+            start_date=_to_date(d["Start Date"]),
+            end_date=_to_date(d["End Date"]),
+        )
+        placements[placement_id] = placement
+        sku.placements.append(placement)
+    return placements
+
+
 def load_model(path: Path = DEFAULT_DATA_PATH) -> SupermarketModel:
     products = load_products(path)
     skus = load_skus(path, products)
     categories = load_categories(path)
-    return SupermarketModel(products=products, skus=skus, categories=categories)
+    placements = load_placements(path, skus)
+    return SupermarketModel(products=products, skus=skus, categories=categories, placements=placements)
 
 
 if __name__ == "__main__":
@@ -159,6 +193,16 @@ if __name__ == "__main__":
     print(f"Products:   {len(model.products)}")
     print(f"SKUs:       {len(model.skus)}")
     print(f"Categories: {len(model.categories)}")
+    print(f"Placements: {len(model.placements)}")
     sample = next(iter(model.skus.values()))
     print(f"\nSample SKU: {sample.sku_id} — {sample.description} ({sample.brand}, {sample.department}/{sample.category})")
     print(f"  retail_price=${sample.retail_price}  margin={sample.gross_margin_pct:.1%}  shelf={sample.shelf_level_assigned}")
+    print(f"  placements: {len(sample.placements)}")
+
+    multi = [s for s in model.skus.values() if len(s.placements) > 1]
+    print(f"\nSKUs with more than one active placement: {len(multi)}")
+    if multi:
+        s = multi[0]
+        print(f"  Example: {s.sku_id} — {s.description}")
+        for p in s.placements:
+            print(f"    {p.placement_type}: {p.location_description} ({p.facings} facings)")

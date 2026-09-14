@@ -30,6 +30,7 @@ def summarize(model: SupermarketModel) -> str:
     add(f"Products:   {len(model.products):,}")
     add(f"SKUs:       {len(model.skus):,}")
     add(f"Categories: {len(model.categories):,}")
+    add(f"Placements: {len(model.placements):,}")
 
     # --- Referential integrity ---
     skus_missing_product = [s.sku_id for s in model.skus.values() if s.product is None]
@@ -38,6 +39,11 @@ def summarize(model: SupermarketModel) -> str:
         f"{d}/{c}" for (d, c) in model.categories.keys() if (d, c) not in sku_category_keys
     ]
     sku_categories_not_in_alloc = sorted(sku_category_keys - set(model.categories.keys()))
+    placements_missing_sku = [p.placement_id for p in model.placements.values() if p.sku_id not in model.skus]
+    skus_missing_primary = [
+        s.sku_id for s in model.skus.values()
+        if not any(p.placement_type == "Primary Shelf" for p in s.placements)
+    ]
 
     add()
     add("-" * 60)
@@ -56,6 +62,8 @@ def summarize(model: SupermarketModel) -> str:
             add(f"  - {d}/{c}")
         if len(sku_categories_not_in_alloc) > 10:
             add(f"  ... and {len(sku_categories_not_in_alloc) - 10} more")
+    add(f"Placements with unresolved SKU reference: {len(placements_missing_sku)}")
+    add(f"SKUs with no Primary Shelf placement: {len(skus_missing_primary)}")
 
     # --- SKUs by department ---
     dept_counts = Counter(s.department for s in model.skus.values())
@@ -112,6 +120,18 @@ def summarize(model: SupermarketModel) -> str:
     add(f"  By role: " + ", ".join(f"{role}={count}" for role, count in role_counts.most_common()))
     add(f"  Total allocated linear space:   {total_allocated_ft:,.1f} ft")
     add(f"  Total unallocated linear space: {total_unallocated_ft:,.1f} ft")
+
+    # --- Placements ---
+    placement_type_counts = Counter(p.placement_type for p in model.placements.values())
+    vendor_funded = sum(1 for p in model.placements.values() if p.vendor_funded)
+    multi_placement_skus = [s for s in model.skus.values() if len(s.placements) > 1]
+    add()
+    add("-" * 60)
+    add("PLACEMENTS")
+    add("-" * 60)
+    add(f"  By type: " + ", ".join(f"{t}={count}" for t, count in placement_type_counts.most_common()))
+    add(f"  Vendor-funded:                 {vendor_funded:>6,}  ({vendor_funded / len(model.placements) * 100:5.1f}%)")
+    add(f"  SKUs with >1 active placement: {len(multi_placement_skus):>6,}  ({len(multi_placement_skus) / n * 100:5.1f}%)")
 
     # --- Manufacturers (derived from products, no dedicated object type) ---
     manufacturers = Counter(p.manufacturer for p in model.products.values())

@@ -13,16 +13,21 @@ or multi-client sync).
 
 ## Structure
 
-- `models.py` — dataclasses: `Product`, `SKU`, `Category`, `SupermarketModel`.
-  Mirrors the workbook's record-level sheets; `SKU.product` references
-  `Product` rather than duplicating product-owned fields (matches the
-  workbook's own VLOOKUP source-of-truth design).
+- `models.py` — dataclasses: `Product`, `SKU`, `Category`, `Placement`,
+  `SupermarketModel`. Mirrors the workbook's record-level sheets; `SKU.product`
+  references `Product` rather than duplicating product-owned fields (matches
+  the workbook's own VLOOKUP source-of-truth design). `Placement` is the one
+  exception to the workbook's row-order-alignment convention: it's a genuine
+  one-to-many child of `SKU` (a SKU can have a Primary Shelf placement plus
+  zero or more Secondary/Impulse Display or Cross-Merchandised placements
+  active at once), keyed by a `SKU (ref)` foreign key rather than row
+  position. `SKU.placements` is a back-reference list populated by the loader.
 - `data_loader.py` — reads `data/supermarket_operations_data.xlsx` and
   builds the model objects. Run directly (`python data_loader.py`) to
   sanity-check counts without starting the app.
 - `app.py` — Streamlit entry point. Currently iteration 1: loads the model
-  and displays it (metrics + browsable tables per object type). No
-  simulation logic (events, ticking) yet.
+  and displays it (metrics + browsable tables per object type, including a
+  Placements tab). No simulation logic (events, ticking) yet.
 - `data/supermarket_operations_data.xlsx` — working copy of the canonical
   workbook (source: the project's `Supermarket_operations_data.xlsx`).
 - `sync_data.py` — refreshes `data/` from the authoritative source and logs
@@ -59,6 +64,34 @@ stale file" is visible in the output rather than assumed. If
 context), pass `--source /path/to/Supermarket_operations_data.xlsx`
 explicitly.
 
+## SKU Placements (many-to-one placement model)
+
+A single SKU can be merchandised in more than one place at once — e.g., a
+coffee bag on its regular shelf, on a manufacturer-funded floor display, and
+in the store's in-store coffee shop, simultaneously. The workbook's `SKU
+Placements` sheet models this as a proper one-to-many child table (FK on
+`SKU (ref)`, not row-order-aligned to `SKU Master`) — the only sheet in the
+workbook that breaks the row-order-alignment convention, since it's a real
+one-to-many rather than a 1:1 sheet.
+
+It's **current-state-only**: a row represents a placement that's active
+right now. There's no historical log and no `Active (Y/N)` flag — a
+placement's row existing *is* its active status. `Start Date`/`End Date`
+exist to know *when* to remove a placement (a future simulation
+event/tick action), not to retain history after removal; once a placement
+ends, its row is deleted rather than flagged inactive.
+
+Every SKU has exactly one `Primary Shelf` placement row, which intentionally
+duplicates `Shelf Level Assigned` / `Current Facings Assigned` / `Current
+Linear Space Assigned` on `SKU Merchandising Attributes`. That sheet's
+row-order alignment with `SKU Master` is preserved as-is rather than
+migrated to FK lookups — a bigger, separately-scoped change if it's ever
+worth collapsing the duplication. See the workbook's `Methodology & Sources`
+sheet for the full write-up, including the fictional generation assumptions
+(~35% of Secondary/Impulse-eligible SKUs currently have an active display;
+~18% of Coffee category SKUs are cross-merchandised into an in-store coffee
+shop).
+
 ## Not yet modeled
 
 `Department Summary` and `Manufacturer Summary` sheets are workbook-level
@@ -70,4 +103,5 @@ not simulation data.
 
 Scope the event model: what state changes, what triggers a tick vs. a user
 action, what the UI needs to display — then build simulation logic on top
-of these model objects.
+of these model objects. Placement removal (an expired `End Date`) is a
+concrete candidate first event once that logic exists.

@@ -1,18 +1,24 @@
 """
 Model objects for the supermarket operations simulation.
 
-These mirror the workbook's three record-level sheets (Methodology &
+These mirror the workbook's four record-level sheets (Methodology &
 Sources tab, "Workbook structure" note):
 
-  Product Master               -> Product   (item-level record, keyed by UPC —
-                                              what a UPC lookup / GS1 data pool
-                                              would return)
+  Product Master               -> Product    (item-level record, keyed by UPC —
+                                               what a UPC lookup / GS1 data pool
+                                               would return)
   SKU Master +
-  SKU Merchandising Attributes -> SKU       (the retailer's store-level
-                                              inventory record; the two sheets
-                                              are aligned 1:1 by row order and
-                                              merged into one object here)
-  Category Space Allocation    -> Category  (one per Department+Category)
+  SKU Merchandising Attributes -> SKU        (the retailer's store-level
+                                               inventory record; the two sheets
+                                               are aligned 1:1 by row order and
+                                               merged into one object here)
+  Category Space Allocation    -> Category   (one per Department+Category)
+  SKU Placements                -> Placement (many-to-one child of SKU — a SKU
+                                               can have a Primary Shelf
+                                               placement plus zero or more
+                                               Secondary/Impulse Display or
+                                               Cross-Merchandised placements
+                                               active at once)
 
 Department Summary and Manufacturer Summary are workbook-level rollups, not
 per-record data, so they aren't modeled as objects — they can be recomputed
@@ -24,6 +30,14 @@ formulas against Product Master, not independently authored data. The SKU
 object keeps a `product` reference instead of duplicating those fields, so
 there's exactly one place each fact lives — matching the workbook's own
 source-of-truth design.
+
+SKU Placements is a genuine one-to-many child table, keyed by SKU (ref) as a
+foreign key — NOT row-order-aligned to SKU Master the way SKU Merchandising
+Attributes is. It's current-state-only (no historical log): a row's presence
+IS its active status. Its "Primary Shelf" row per SKU intentionally
+duplicates SKU.shelf_level_assigned / current_facings_assigned /
+current_linear_space_assigned_in — that's a deliberate tradeoff (see the
+workbook's Methodology & Sources sheet), not an oversight to fix here.
 """
 
 from __future__ import annotations
@@ -84,6 +98,12 @@ class SKU:
     allergen_flag: str
     shelf_level_assigned: str
     secondary_display_eligible: bool
+
+    # --- Back-reference: all current placements of this SKU (Primary Shelf
+    #     plus any Secondary/Impulse Display or Cross-Merchandised rows).
+    #     Populated by the loader after SKU Placements is read — see
+    #     data_loader.load_placements(). ---
+    placements: list["Placement"] = field(default_factory=list)
 
     # --- Convenience pass-throughs to the product-owned fields, so callers
     #     don't have to chain through `.product` for the common ones. These
@@ -153,12 +173,40 @@ class Category:
 
 
 @dataclass
+class Placement:
+    """
+    One row of SKU Placements — a single, currently-active merchandising
+    instance of a SKU (Primary Shelf, Secondary/Impulse Display, or
+    Cross-Merchandised). Current-state-only: this row's existence IS its
+    active status. There is no historical log and no Active flag — when a
+    placement ends, its row is removed rather than flagged inactive.
+
+    start_date/end_date drive *when* to remove a placement (an app-level
+    tick/event action), not a retained history: end_date is typically null
+    for Primary Shelf (no natural end) and set for time-boxed promotional
+    placements (Secondary/Impulse Display).
+    """
+
+    placement_id: str
+    sku_id: str  # FK to SKU.sku_id — resolved via loader, not row order
+    placement_type: str  # "Primary Shelf" | "Secondary/Impulse Display" | "Cross-Merchandised"
+    location_description: str
+    fixture_type: str
+    facings: int
+    linear_space_assigned_in: float
+    vendor_funded: bool
+    start_date: Optional[date]
+    end_date: Optional[date]
+
+
+@dataclass
 class SupermarketModel:
     """Top-level container: the fully loaded simulation model."""
 
     products: dict[str, Product] = field(default_factory=dict)  # keyed by UPC
     skus: dict[str, SKU] = field(default_factory=dict)  # keyed by SKU id
     categories: dict[tuple[str, str], Category] = field(default_factory=dict)  # keyed by (Department, Category)
+    placements: dict[str, Placement] = field(default_factory=dict)  # keyed by Placement ID
 
     def __len__(self) -> int:
         return len(self.skus)

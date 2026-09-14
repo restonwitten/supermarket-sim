@@ -25,14 +25,17 @@ model = get_model()
 st.title("Supermarket Operations Simulation")
 st.caption("Iteration 1: model objects loaded from the simulation data workbook.")
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 col1.metric("Products", len(model.products))
 col2.metric("SKUs", len(model.skus))
 col3.metric("Categories", len(model.categories))
+col4.metric("Placements", len(model.placements))
 
 st.divider()
 
-tab_skus, tab_categories, tab_products = st.tabs(["SKUs", "Categories", "Products"])
+tab_skus, tab_categories, tab_products, tab_placements = st.tabs(
+    ["SKUs", "Categories", "Products", "Placements"]
+)
 
 with tab_skus:
     departments = sorted({sku.department for sku in model.skus.values()})
@@ -49,6 +52,7 @@ with tab_skus:
             "Shelf Level": s.shelf_level_assigned,
             "Facings": s.current_facings_assigned,
             "Assortment Status": s.assortment_status,
+            "Active Placements": len(s.placements),
         }
         for s in model.skus.values()
         if dept_filter == "All" or s.department == dept_filter
@@ -84,5 +88,27 @@ with tab_products:
             "Suggested Retail Price": p.suggested_retail_price,
         }
         for p in model.products.values()
+    ]
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, height=500)
+
+with tab_placements:
+    placement_types = sorted({p.placement_type for p in model.placements.values()})
+    type_filter = st.selectbox("Placement Type", ["All"] + placement_types)
+    rows = [
+        {
+            "Placement ID": p.placement_id,
+            "SKU": p.sku_id,
+            "Description": model.skus[p.sku_id].description,
+            "Placement Type": p.placement_type,
+            "Location": p.location_description,
+            "Fixture Type": p.fixture_type,
+            "Facings": p.facings,
+            "Linear Space (in)": p.linear_space_assigned_in,
+            "Vendor Funded": p.vendor_funded,
+            "Start Date": p.start_date,
+            "End Date": p.end_date,
+        }
+        for p in model.placements.values()
+        if type_filter == "All" or p.placement_type == type_filter
     ]
     st.dataframe(pd.DataFrame(rows), use_container_width=True, height=500)
