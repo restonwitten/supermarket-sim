@@ -9,6 +9,13 @@ come through as plain resolved values — no formula evaluation needed here.
 The workbook must have been through recalc.py at least once for those cached
 values to be present; if every SKU's product-owned field reads as NaN, that's
 the symptom and re-running recalc.py on the source file is the fix.
+
+As of this revision, SKU Merchandising Attributes no longer carries Current
+Facings Assigned / Current Linear Space Assigned (in) / Shelf Level Assigned
+— that assignment data lives once, on each SKU's Primary Shelf row in SKU
+Placements (Facings / Linear Space Assigned (in) / the new Shelf Level
+column). load_skus() no longer reads those three columns; load_placements()
+reads the new Shelf Level column into Placement.shelf_level.
 """
 
 from __future__ import annotations
@@ -41,6 +48,10 @@ def _to_date(val) -> Optional[date]:
 
 def _clean_str(val) -> str:
     return "" if pd.isna(val) else str(val)
+
+
+def _clean_str_or_none(val) -> Optional[str]:
+    return None if pd.isna(val) else str(val)
 
 
 def load_products(path: Path) -> dict[str, Product]:
@@ -105,13 +116,10 @@ def load_skus(path: Path, products: dict[str, Product]) -> dict[str, SKU]:
             stackable=_yn_to_bool(a["Stackable (Y/N)"]),
             unit_cost=float(a["Unit Cost ($)"]),
             gross_margin_pct=float(a["Gross Margin (%)"]),
-            current_facings_assigned=int(a["Current Facings Assigned"]),
-            current_linear_space_assigned_in=float(a["Current Linear Space Assigned (in)"]),
             assortment_status=_clean_str(a["Assortment Status"]),
             seasonality_window=_clean_str(a["Seasonality Window"]),
             age_restricted=_yn_to_bool(a["Age-Restricted (Y/N)"]),
             allergen_flag=_clean_str(a["Allergen Flag"]),
-            shelf_level_assigned=_clean_str(a["Shelf Level Assigned"]),
             secondary_display_eligible=_yn_to_bool(a["Secondary/Impulse Display Eligible (Y/N)"]),
         )
     return skus
@@ -153,6 +161,11 @@ def load_placements(path: Path, skus: dict[str, SKU]) -> dict[str, Placement]:
     (ref) as a foreign key, NOT row-order-aligned to SKU Master. Current-
     state-only: every row is an active placement. After loading, each
     Placement is appended to its parent SKU's `.placements` list.
+
+    Shelf Level is a new column (as of this revision): Top/Middle/Bottom/
+    Eye-Level for Primary Shelf and Cross-Merchandised rows, "Floor" for
+    Secondary/Impulse Display rows (Floor Display fixture has no shelf-level
+    position).
     """
     df = pd.read_excel(path, sheet_name="SKU Placements")
     placements: dict[str, Placement] = {}
@@ -174,6 +187,7 @@ def load_placements(path: Path, skus: dict[str, SKU]) -> dict[str, Placement]:
             vendor_funded=_yn_to_bool(d["Vendor Funded (Y/N)"]),
             start_date=_to_date(d["Start Date"]),
             end_date=_to_date(d["End Date"]),
+            shelf_level=_clean_str_or_none(d["Shelf Level"]),
         )
         placements[placement_id] = placement
         sku.placements.append(placement)
@@ -205,4 +219,4 @@ if __name__ == "__main__":
         s = multi[0]
         print(f"  Example: {s.sku_id} — {s.description}")
         for p in s.placements:
-            print(f"    {p.placement_type}: {p.location_description} ({p.facings} facings)")
+            print(f"    {p.placement_type}: {p.location_description} ({p.facings} facings, shelf={p.shelf_level})")

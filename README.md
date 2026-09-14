@@ -22,6 +22,13 @@ or multi-client sync).
   zero or more Secondary/Impulse Display or Cross-Merchandised placements
   active at once), keyed by a `SKU (ref)` foreign key rather than row
   position. `SKU.placements` is a back-reference list populated by the loader.
+  `SKU.current_facings_assigned`, `.current_linear_space_assigned_in`, and
+  `.shelf_level_assigned` are derived properties that read through to the
+  SKU's Primary Shelf placement — see "SKU Placements" below for why that
+  data lives there and not on `SKU` itself. `SupermarketModel.clear_placements()`
+  clears all active placements model-wide (in-memory only); it's called
+  internally as the first step of a placement-generation operation, not
+  exposed as a standalone user action.
 - `data_loader.py` — reads `data/supermarket_operations_data.xlsx` and
   builds the model objects. Run directly (`python data_loader.py`) to
   sanity-check counts without starting the app.
@@ -81,16 +88,21 @@ exist to know *when* to remove a placement (a future simulation
 event/tick action), not to retain history after removal; once a placement
 ends, its row is deleted rather than flagged inactive.
 
-Every SKU has exactly one `Primary Shelf` placement row, which intentionally
-duplicates `Shelf Level Assigned` / `Current Facings Assigned` / `Current
-Linear Space Assigned` on `SKU Merchandising Attributes`. That sheet's
-row-order alignment with `SKU Master` is preserved as-is rather than
-migrated to FK lookups — a bigger, separately-scoped change if it's ever
-worth collapsing the duplication. See the workbook's `Methodology & Sources`
-sheet for the full write-up, including the fictional generation assumptions
-(~35% of Secondary/Impulse-eligible SKUs currently have an active display;
-~18% of Coffee category SKUs are cross-merchandised into an in-store coffee
-shop).
+Every SKU has exactly one `Primary Shelf` placement row. `Facings`, `Linear
+Space Assigned (in)`, and `Shelf Level` are **assignment data that lives
+only here**, on the placement — `SKU Merchandising Attributes` does not
+duplicate them. (Earlier versions of this workbook did duplicate this data
+as `Current Facings Assigned` / `Current Linear Space Assigned (in)` /
+`Shelf Level Assigned` columns on `SKU Merchandising Attributes`; those
+columns were removed once the object model moved to deriving them from the
+SKU's Primary Shelf placement instead — see `models.py`'s `SKU` properties.)
+`Shelf Level` is `Top`/`Middle`/`Bottom`/`Eye-Level` for `Primary Shelf` and
+`Cross-Merchandised` (Wall Shelf) rows, and `Floor` for `Secondary/Impulse
+Display` rows (Floor Display fixture has no shelf-level position). See the
+workbook's `Methodology & Sources` sheet for the full write-up, including
+the fictional generation assumptions (~35% of Secondary/Impulse-eligible
+SKUs currently have an active display; ~18% of Coffee category SKUs are
+cross-merchandised into an in-store coffee shop).
 
 ## Not yet modeled
 
@@ -103,5 +115,9 @@ not simulation data.
 
 Scope the event model: what state changes, what triggers a tick vs. a user
 action, what the UI needs to display — then build simulation logic on top
-of these model objects. Placement removal (an expired `End Date`) is a
-concrete candidate first event once that logic exists.
+of these model objects. A global placement-regeneration operation is the
+next concrete candidate: it should call `SupermarketModel.clear_placements()`
+as its first step, then generate new `Placement` rows (at minimum a new
+Primary Shelf row per SKU) reading category-level policy from `Category`
+(min/max/avg facings, space elasticity) as its input. Placement removal (an
+expired `End Date`) is another concrete candidate once that logic exists.

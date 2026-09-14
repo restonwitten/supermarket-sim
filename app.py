@@ -104,6 +104,7 @@ with tab_placements:
             "Fixture Type": p.fixture_type,
             "Facings": p.facings,
             "Linear Space (in)": p.linear_space_assigned_in,
+            "Shelf Level": p.shelf_level,
             "Vendor Funded": p.vendor_funded,
             "Start Date": p.start_date,
             "End Date": p.end_date,

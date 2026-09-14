@@ -34,10 +34,17 @@ source-of-truth design.
 SKU Placements is a genuine one-to-many child table, keyed by SKU (ref) as a
 foreign key — NOT row-order-aligned to SKU Master the way SKU Merchandising
 Attributes is. It's current-state-only (no historical log): a row's presence
-IS its active status. Its "Primary Shelf" row per SKU intentionally
-duplicates SKU.shelf_level_assigned / current_facings_assigned /
-current_linear_space_assigned_in — that's a deliberate tradeoff (see the
-workbook's Methodology & Sources sheet), not an oversight to fix here.
+IS its active status.
+
+As of this revision, assigned facings, linear space, and shelf level are
+NOT duplicated onto SKU Merchandising Attributes. They live once, on each
+SKU's Primary Shelf placement row (SKU Placements columns Facings, Linear
+Space Assigned (in), and the new Shelf Level column). SKU exposes them as
+derived properties that read through to that row — see
+SKU._primary_shelf_placement and the properties built on it below. This
+replaces the prior design where SKU Merchandising Attributes carried
+Current Facings Assigned / Current Linear Space Assigned (in) / Shelf Level
+Assigned as separately-authored, duplicated values.
 """
 
 from __future__ import annotations
@@ -90,13 +97,10 @@ class SKU:
     stackable: bool
     unit_cost: float
     gross_margin_pct: float
-    current_facings_assigned: int
-    current_linear_space_assigned_in: float
     assortment_status: str
     seasonality_window: str
     age_restricted: bool
     allergen_flag: str
-    shelf_level_assigned: str
     secondary_display_eligible: bool
 
     # --- Back-reference: all current placements of this SKU (Primary Shelf
@@ -104,6 +108,38 @@ class SKU:
     #     Populated by the loader after SKU Placements is read — see
     #     data_loader.load_placements(). ---
     placements: list["Placement"] = field(default_factory=list)
+
+    # --- Assigned facings / linear space / shelf level are derived from the
+    #     SKU's Primary Shelf placement, not stored here — see module
+    #     docstring. All three return None when the SKU currently has zero
+    #     Primary Shelf placements (e.g. mid-regeneration, right after
+    #     SupermarketModel.clear_placements() and before new placements are
+    #     generated). More than one Primary Shelf placement on the same SKU
+    #     is a genuine data-integrity violation, so that case raises rather
+    #     than silently picking one. ---
+    @property
+    def _primary_shelf_placement(self) -> Optional["Placement"]:
+        primaries = [p for p in self.placements if p.placement_type == "Primary Shelf"]
+        if len(primaries) > 1:
+            raise ValueError(
+                f"SKU {self.sku_id} has {len(primaries)} Primary Shelf placements — expected at most 1."
+            )
+        return primaries[0] if primaries else None
+
+    @property
+    def current_facings_assigned(self) -> Optional[int]:
+        p = self._primary_shelf_placement
+        return p.facings if p else None
+
+    @property
+    def current_linear_space_assigned_in(self) -> Optional[float]:
+        p = self._primary_shelf_placement
+        return p.linear_space_assigned_in if p else None
+
+    @property
+    def shelf_level_assigned(self) -> Optional[str]:
+        p = self._primary_shelf_placement
+        return p.shelf_level if p else None
 
     # --- Convenience pass-throughs to the product-owned fields, so callers
     #     don't have to chain through `.product` for the common ones. These
@@ -185,6 +221,13 @@ class Placement:
     tick/event action), not a retained history: end_date is typically null
     for Primary Shelf (no natural end) and set for time-boxed promotional
     placements (Secondary/Impulse Display).
+
+    shelf_level is the assignment's vertical shelf position: "Top",
+    "Middle", "Bottom", or "Eye-Level" for Primary Shelf and Cross-
+    Merchandised (Wall Shelf) placements; "Floor" for Secondary/Impulse
+    Display placements (Floor Display fixture), which have no shelf-level
+    position to speak of. This is the sole home of that data — see module
+    docstring.
     """
 
     placement_id: str
@@ -197,6 +240,7 @@ class Placement:
     vendor_funded: bool
     start_date: Optional[date]
     end_date: Optional[date]
+    shelf_level: Optional[str]
 
 
 @dataclass
@@ -210,3 +254,33 @@ class SupermarketModel:
 
     def __len__(self) -> int:
         return len(self.skus)
+
+    def clear_placements(self) -> int:
+        """
+        Clears all placement ASSIGNMENT data: every active Placement row,
+        model-wide. Since facings, linear space, and shelf level are no
+        longer duplicated onto SKU (they're derived from the SKU's Primary
+        Shelf placement — see SKU._primary_shelf_placement), clearing the
+        placement collections is sufficient; SKU.current_facings_assigned /
+        current_linear_space_assigned_in / shelf_level_assigned
+        automatically read back as None once their SKU has zero placements.
+
+        Does NOT touch standing placement policy/advice — Category
+        min/max/avg facings, space elasticity, private-label space target —
+        which is what a subsequent generation step reads from, not what it
+        clears.
+
+        In-memory only; the source workbook is never touched.
+
+        Not exposed as a standalone user action in the app. Call only as
+        the first internal step of a placement-generation operation, so the
+        model is never left in a "cleared but not yet regenerated" state
+        visible to a user mid-session.
+
+        Returns the number of placements cleared.
+        """
+        count = len(self.placements)
+        self.placements.clear()
+        for sku in self.skus.values():
+            sku.placements.clear()
+        return count
