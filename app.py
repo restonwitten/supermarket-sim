@@ -8,7 +8,7 @@ the next iteration, once the event model is scoped.
 """
 
 import pandas as pd
-import streamlit as st
+import streamlit as st  # pyright: ignore[reportMissingImports]
 
 from data_loader import load_model
 
