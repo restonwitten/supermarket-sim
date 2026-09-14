@@ -25,8 +25,10 @@ or multi-client sync).
   simulation logic (events, ticking) yet.
 - `data/supermarket_operations_data.xlsx` — working copy of the canonical
   workbook (source: the project's `Supermarket_operations_data.xlsx`).
-  **Re-copy this file here whenever the canonical workbook changes** —
-  it's not auto-synced.
+- `sync_data.py` — refreshes `data/` from the authoritative source and logs
+  an md5 comparison either way. **Run this before every rebuild, review, or
+  commit** — see "Keeping the data copy in sync" below. Don't assume the
+  copy in `data/` is current just because it's present.
 
 ## Running
 
@@ -34,6 +36,28 @@ or multi-client sync).
 pip install -r requirements.txt
 streamlit run app.py
 ```
+
+## Keeping the data copy in sync
+
+`data/supermarket_operations_data.xlsx` is a **copy**, not a live link, of
+the project's authoritative workbook. In a Claude conversation with this
+project open, that source is mounted at
+`/mnt/project/Supermarket_operations_data.xlsx` — a snapshot for that
+conversation, not something Claude can detect changing mid-conversation.
+
+Run this before touching the repo (rebuilding it, reviewing it, or
+committing to it):
+
+```bash
+python sync_data.py            # compares md5 against the source; copies if stale
+python sync_data.py --check    # report only, exit 1 if stale, don't copy
+```
+
+It always prints both md5 hashes, so "in sync" vs. "just copied over a
+stale file" is visible in the output rather than assumed. If
+`/mnt/project/...` isn't present (e.g. running outside that conversation
+context), pass `--source /path/to/Supermarket_operations_data.xlsx`
+explicitly.
 
 ## Not yet modeled
 
