@@ -16,9 +16,28 @@ Facings Assigned / Current Linear Space Assigned (in) / Shelf Level Assigned
 Placements (Facings / Linear Space Assigned (in) / the new Shelf Level
 column). load_skus() no longer reads those three columns; load_placements()
 reads the new Shelf Level column into Placement.shelf_level.
+
+--- Workbook path resolution ---
+
+There is no local copy of the workbook checked into or synced into this
+repo anymore (see README's "Installation" section for the history — this
+replaces the old data/ directory + sync_data.py approach). resolve_
+default_data_path() finds the workbook via two tiers, in order:
+
+  1. The Claude project mount (/mnt/project/Supermarket_operations_data.xlsx)
+     — present only inside a Claude conversation with this project open.
+     Read directly; nothing is copied.
+  2. config.json's "data_path" key — for any other environment (local dev,
+     a deployed server). Set once at install time; see README.
+
+Resolution is deferred to call time (load_model()'s path=None default),
+not baked into a module-level constant, so importing this module never
+requires the workbook to be resolvable — only actually loading one does.
 """
 
 from __future__ import annotations
+import json
+import os
 from pathlib import Path
 from datetime import date, datetime
 from typing import Optional
@@ -27,7 +46,41 @@ import pandas as pd
 
 from models import Product, SKU, Category, Placement, SupermarketModel
 
-DEFAULT_DATA_PATH = Path(__file__).parent / "data" / "supermarket_operations_data.xlsx"
+PROJECT_MOUNT_PATH = Path("/mnt/project/Supermarket_operations_data.xlsx")
+CONFIG_PATH = Path(__file__).parent / "config.json"
+
+
+def resolve_default_data_path() -> Path:
+    """
+    Resolves the workbook path with no manual sync step required. See the
+    module docstring for the two-tier order. Raises FileNotFoundError with
+    actionable guidance if neither tier resolves to an existing file.
+    """
+    if PROJECT_MOUNT_PATH.exists():
+        return PROJECT_MOUNT_PATH
+
+    if CONFIG_PATH.exists():
+        try:
+            config = json.loads(CONFIG_PATH.read_text())
+        except json.JSONDecodeError as e:
+            raise FileNotFoundError(
+                f"{CONFIG_PATH} exists but isn't valid JSON: {e}"
+            ) from e
+        data_path = config.get("data_path")
+        if data_path:
+            path = Path(data_path).expanduser()
+            if path.exists():
+                return path
+            raise FileNotFoundError(
+                f"config.json's \"data_path\" is set to '{data_path}', but no file "
+                f"exists there. Update that value in {CONFIG_PATH}."
+            )
+
+    raise FileNotFoundError(
+        "Could not locate the simulation workbook. Neither the Claude project "
+        f"mount ({PROJECT_MOUNT_PATH}) nor {CONFIG_PATH} (\"data_path\" key) "
+        "resolved to a file. See the README's 'Installation' section."
+    )
 
 
 def _yn_to_bool(val) -> bool:
@@ -194,7 +247,9 @@ def load_placements(path: Path, skus: dict[str, SKU]) -> dict[str, Placement]:
     return placements
 
 
-def load_model(path: Path = DEFAULT_DATA_PATH) -> SupermarketModel:
+def load_model(path: Optional[Path] = None) -> SupermarketModel:
+    if path is None:
+        path = resolve_default_data_path()
     products = load_products(path)
     skus = load_skus(path, products)
     categories = load_categories(path)

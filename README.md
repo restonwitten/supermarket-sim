@@ -29,18 +29,50 @@ or multi-client sync).
   clears all active placements model-wide (in-memory only); it's called
   internally as the first step of a placement-generation operation, not
   exposed as a standalone user action.
-- `data_loader.py` — reads `data/supermarket_operations_data.xlsx` and
-  builds the model objects. Run directly (`python data_loader.py`) to
-  sanity-check counts without starting the app.
+- `data_loader.py` — reads the workbook and builds the model objects.
+  `resolve_default_data_path()` locates the workbook with no manual copy or
+  sync step (see "Installation" below). Run directly (`python data_loader.py`)
+  to sanity-check counts without starting the app.
 - `app.py` — Streamlit entry point. Currently iteration 1: loads the model
   and displays it (metrics + browsable tables per object type, including a
   Placements tab). No simulation logic (events, ticking) yet.
-- `data/supermarket_operations_data.xlsx` — working copy of the canonical
-  workbook (source: the project's `Supermarket_operations_data.xlsx`).
-- `sync_data.py` — refreshes `data/` from the authoritative source and logs
-  an md5 comparison either way. **Run this before every rebuild, review, or
-  commit** — see "Keeping the data copy in sync" below. Don't assume the
-  copy in `data/` is current just because it's present.
+- `config.example.json` — template for `config.json` (gitignored, install-
+  specific). See "Installation" below.
+
+## Installation
+
+The app needs to find `Supermarket_operations_data.xlsx` — the project's
+authoritative workbook. There is no copy of it checked into or synced into
+this repo. Path resolution (`data_loader.resolve_default_data_path()`)
+checks two places, in order, every time the workbook is loaded:
+
+1. **The Claude project mount** — `/mnt/project/Supermarket_operations_data.xlsx`.
+   Present automatically inside a Claude conversation with this project
+   open; nothing to set up. If you're developing or running the app from
+   inside such a conversation, you're done — skip step 2.
+2. **`config.json`** — for any other environment (local dev machine, a
+   deployed server). This is a one-time setup step, not something that
+   runs on every launch:
+
+   ```bash
+   cp config.example.json config.json
+   ```
+
+   Then edit `config.json` and set `"data_path"` to the absolute path of
+   your copy of `Supermarket_operations_data.xlsx`:
+
+   ```json
+   {
+     "data_path": "/absolute/path/to/Supermarket_operations_data.xlsx"
+   }
+   ```
+
+   `config.json` is gitignored — it's local to each install, not shared
+   through the repo.
+
+If neither the mount nor a valid `config.json` resolves to a real file,
+`resolve_default_data_path()` raises `FileNotFoundError` with guidance
+pointing back here.
 
 ## Running
 
@@ -48,28 +80,6 @@ or multi-client sync).
 pip install -r requirements.txt
 streamlit run app.py
 ```
-
-## Keeping the data copy in sync
-
-`data/supermarket_operations_data.xlsx` is a **copy**, not a live link, of
-the project's authoritative workbook. In a Claude conversation with this
-project open, that source is mounted at
-`/mnt/project/Supermarket_operations_data.xlsx` — a snapshot for that
-conversation, not something Claude can detect changing mid-conversation.
-
-Run this before touching the repo (rebuilding it, reviewing it, or
-committing to it):
-
-```bash
-python sync_data.py            # compares md5 against the source; copies if stale
-python sync_data.py --check    # report only, exit 1 if stale, don't copy
-```
-
-It always prints both md5 hashes, so "in sync" vs. "just copied over a
-stale file" is visible in the output rather than assumed. If
-`/mnt/project/...` isn't present (e.g. running outside that conversation
-context), pass `--source /path/to/Supermarket_operations_data.xlsx`
-explicitly.
 
 ## SKU Placements (many-to-one placement model)
 
@@ -121,3 +131,10 @@ as its first step, then generate new `Placement` rows (at minimum a new
 Primary Shelf row per SKU) reading category-level policy from `Category`
 (min/max/avg facings, space elasticity) as its input. Placement removal (an
 expired `End Date`) is another concrete candidate once that logic exists.
+
+A separate, tracked item: add a mutable `SKUState`-style dataclass (mirroring
+the `Category`/`Placement` static-policy-vs.-current-state split) to hold
+the simulation-evolving fields currently living on `SKU` — first pass should
+carry the workbook's `SKU Merchandising Attributes` sheet over field-for-
+field with no pruning, once the event model makes clear what's actually
+mutable. Hold off until then.

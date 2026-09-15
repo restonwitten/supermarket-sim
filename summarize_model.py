@@ -4,8 +4,8 @@ Loads the simulation model and prints a summary of what was loaded.
 Usage:
     python summarize_model.py [path/to/workbook.xlsx]
 
-Defaults to data/supermarket_operations_data.xlsx (data_loader.DEFAULT_DATA_PATH)
-if no path is given.
+Defaults to data_loader.resolve_default_data_path() (Claude project mount,
+then config.json) if no path is given.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from data_loader import load_model, DEFAULT_DATA_PATH
+from data_loader import load_model, resolve_default_data_path
 from models import SupermarketModel
 
 
@@ -149,6 +149,6 @@ def summarize(model: SupermarketModel) -> str:
 
 
 if __name__ == "__main__":
-    path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_DATA_PATH
+    path = Path(sys.argv[1]) if len(sys.argv) > 1 else resolve_default_data_path()
     model = load_model(path)
     print(summarize(model))
