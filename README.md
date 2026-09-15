@@ -41,12 +41,12 @@ or multi-client sync).
 
 ## Installation
 
-The app needs to find `Supermarket_operations_data.xlsx` — the project's
+The app needs to find `supermarket_operations_data.xlsx` — the project's
 authoritative workbook. There is no copy of it checked into or synced into
 this repo. Path resolution (`data_loader.resolve_default_data_path()`)
 checks two places, in order, every time the workbook is loaded:
 
-1. **The Claude project mount** — `/mnt/project/Supermarket_operations_data.xlsx`.
+1. **The Claude project mount** — `/mnt/project/supermarket_operations_data.xlsx`.
    Present automatically inside a Claude conversation with this project
    open; nothing to set up. If you're developing or running the app from
    inside such a conversation, you're done — skip step 2.
@@ -59,11 +59,11 @@ checks two places, in order, every time the workbook is loaded:
    ```
 
    Then edit `config.json` and set `"data_path"` to the absolute path of
-   your copy of `Supermarket_operations_data.xlsx`:
+   your copy of `supermarket_operations_data.xlsx`:
 
    ```json
    {
-     "data_path": "/absolute/path/to/Supermarket_operations_data.xlsx"
+     "data_path": "/absolute/path/to/supermarket_operations_data.xlsx"
    }
    ```
 
@@ -93,8 +93,8 @@ one-to-many rather than a 1:1 sheet.
 
 It's **current-state-only**: a row represents a placement that's active
 right now. There's no historical log and no `Active (Y/N)` flag — a
-placement's row existing *is* its active status. `Start Date`/`End Date`
-exist to know *when* to remove a placement (a future simulation
+placement's row existing _is_ its active status. `Start Date`/`End Date`
+exist to know _when_ to remove a placement (a future simulation
 event/tick action), not to retain history after removal; once a placement
 ends, its row is deleted rather than flagged inactive.
 

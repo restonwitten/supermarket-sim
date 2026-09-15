@@ -1,5 +1,5 @@
 """
-Loads Supermarket_operations_data.xlsx into the model objects declared in
+Loads supermarket_operations_data.xlsx into the model objects declared in
 models.py.
 
 Uses pandas for bulk read (per the xlsx skill's guidance: bulk data in/out ->
@@ -24,7 +24,7 @@ repo anymore (see README's "Installation" section for the history — this
 replaces the old data/ directory + sync_data.py approach). resolve_
 default_data_path() finds the workbook via two tiers, in order:
 
-  1. The Claude project mount (/mnt/project/Supermarket_operations_data.xlsx)
+  1. The Claude project mount (/mnt/project/supermarket_operations_data.xlsx)
      — present only inside a Claude conversation with this project open.
      Read directly; nothing is copied.
   2. config.json's "data_path" key — for any other environment (local dev,
@@ -46,7 +46,7 @@ import pandas as pd
 
 from models import Product, SKU, Category, Placement, SupermarketModel
 
-PROJECT_MOUNT_PATH = Path("/mnt/project/Supermarket_operations_data.xlsx")
+PROJECT_MOUNT_PATH = Path("/mnt/project/supermarket_operations_data.xlsx")
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
 

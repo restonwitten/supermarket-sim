@@ -4,4 +4,4 @@ __pycache__/
 .venv/
 venv/
 .streamlit/secrets.toml
-data/Supermarket_operations_data.xlsx
+data/supermarket_operations_data.xlsx
