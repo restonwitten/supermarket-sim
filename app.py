@@ -51,7 +51,7 @@ with tab_skus:
             "Sales Velocity (u/wk)": s.sales_velocity,
             "Shelf Level": s.shelf_level_assigned,
             "Facings": s.current_facings_assigned,
-            "Assortment Status": s.assortment_status,
+            "Assortment Status": model.sku_merchandising[s.sku_id].assortment_status,
             "Active Placements": len(s.placements),
         }
         for s in model.skus.values()

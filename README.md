@@ -13,8 +13,8 @@ or multi-client sync).
 
 ## Structure
 
-- `models.py` — dataclasses: `Product`, `SKU`, `Category`, `Placement`,
-  `SupermarketModel`. Mirrors the workbook's record-level sheets; `SKU.product`
+- `models.py` — dataclasses: `Product`, `SKU`, `SKU_Merchandising`, `Category`,
+  `Placement`, `SupermarketModel`. Mirrors the workbook's record-level sheets; `SKU.product`
   references `Product` rather than duplicating product-owned fields (matches
   the workbook's own VLOOKUP source-of-truth design). `Placement` is the one
   exception to the workbook's row-order-alignment convention: it's a genuine
@@ -93,8 +93,8 @@ one-to-many rather than a 1:1 sheet.
 
 It's **current-state-only**: a row represents a placement that's active
 right now. There's no historical log and no `Active (Y/N)` flag — a
-placement's row existing _is_ its active status. `Start Date`/`End Date`
-exist to know _when_ to remove a placement (a future simulation
+placement's row existing *is* its active status. `Start Date`/`End Date`
+exist to know *when* to remove a placement (a future simulation
 event/tick action), not to retain history after removal; once a placement
 ends, its row is deleted rather than flagged inactive.
 
@@ -114,6 +114,25 @@ the fictional generation assumptions (~35% of Secondary/Impulse-eligible
 SKUs currently have an active display; ~18% of Coffee category SKUs are
 cross-merchandised into an in-store coffee shop).
 
+## SKU Merchandising (standalone entity)
+
+The workbook's `SKU Merchandising Attributes` sheet was renamed to
+`SKU Merchandising` (the `Attributes` was superfluous). It's loaded as its
+own standalone object, `SKU_Merchandising` (field-for-field mirror of the
+sheet, keyed by SKU id on `SupermarketModel.sku_merchandising`) — package
+dimensions, unit cost, gross margin, assortment status, seasonality window,
+age-restricted, allergen flag, and secondary-display eligibility all live
+there now, and nowhere else. `SKU` (from `SKU Master` alone) no longer
+carries any of these; `load_skus()` in `data_loader.py` doesn't read the
+`SKU Merchandising` sheet at all — `load_sku_merchandising()` is the sole
+loader for it.
+
+An earlier revision merged this sheet onto `SKU` as well as loading it
+standalone, as a deliberate first pass to see the entity on its own before
+deciding what to prune. That decision has been made, in favor of keeping
+`SKU` lean: look up merchandising attributes via
+`model.sku_merchandising[sku_id]`, not on the `SKU` object.
+
 ## Not yet modeled
 
 `Department Summary` and `Manufacturer Summary` sheets are workbook-level
@@ -132,9 +151,11 @@ Primary Shelf row per SKU) reading category-level policy from `Category`
 (min/max/avg facings, space elasticity) as its input. Placement removal (an
 expired `End Date`) is another concrete candidate once that logic exists.
 
-A separate, tracked item: add a mutable `SKUState`-style dataclass (mirroring
-the `Category`/`Placement` static-policy-vs.-current-state split) to hold
-the simulation-evolving fields currently living on `SKU` — first pass should
-carry the workbook's `SKU Merchandising Attributes` sheet over field-for-
-field with no pruning, once the event model makes clear what's actually
-mutable. Hold off until then.
+A separate, tracked item: whether `SKU_Merchandising` as loaded (a direct
+mirror of the `SKU Merchandising` sheet) is actually the right shape for
+mutable simulation state, or just a staging point — e.g. a `Category`/
+`Placement`-style split between what's static policy versus what an event
+actually mutates at runtime. `SKU` no longer duplicates these fields (see
+"SKU Merchandising" above), so that part is settled; what's still open is
+`SKU_Merchandising`'s own shape, and that's a question for once the event
+model makes clear what's actually mutable — hold off until then.

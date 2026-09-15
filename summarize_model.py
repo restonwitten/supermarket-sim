@@ -27,13 +27,16 @@ def summarize(model: SupermarketModel) -> str:
     add("=" * 60)
     add("SUPERMARKET SIMULATION MODEL — LOAD SUMMARY")
     add("=" * 60)
-    add(f"Products:   {len(model.products):,}")
-    add(f"SKUs:       {len(model.skus):,}")
-    add(f"Categories: {len(model.categories):,}")
-    add(f"Placements: {len(model.placements):,}")
+    add(f"Products:          {len(model.products):,}")
+    add(f"SKUs:              {len(model.skus):,}")
+    add(f"SKU Merchandising: {len(model.sku_merchandising):,}")
+    add(f"Categories:        {len(model.categories):,}")
+    add(f"Placements:        {len(model.placements):,}")
 
     # --- Referential integrity ---
     skus_missing_product = [s.sku_id for s in model.skus.values() if s.product is None]
+    skus_missing_merchandising = [sid for sid in model.skus if sid not in model.sku_merchandising]
+    merchandising_missing_sku = [sid for sid in model.sku_merchandising if sid not in model.skus]
     sku_category_keys = {(s.department, s.category) for s in model.skus.values()}
     categories_with_no_sku = [
         f"{d}/{c}" for (d, c) in model.categories.keys() if (d, c) not in sku_category_keys
@@ -50,6 +53,8 @@ def summarize(model: SupermarketModel) -> str:
     add("REFERENTIAL INTEGRITY")
     add("-" * 60)
     add(f"SKUs with unresolved product reference: {len(skus_missing_product)}")
+    add(f"SKUs with no matching SKU Merchandising record: {len(skus_missing_merchandising)}")
+    add(f"SKU Merchandising records with no matching SKU: {len(merchandising_missing_sku)}")
     add(f"Categories in Space Allocation with 0 matching SKUs: {len(categories_with_no_sku)}")
     if categories_with_no_sku:
         for c in categories_with_no_sku[:10]:
@@ -77,37 +82,38 @@ def summarize(model: SupermarketModel) -> str:
 
     # --- Private label / perishable / age-restricted flags ---
     n = len(model.skus)
+    nm = len(model.sku_merchandising)
     private_label = sum(1 for s in model.skus.values() if s.private_label)
     perishable = sum(1 for s in model.skus.values() if s.perishable)
-    age_restricted = sum(1 for s in model.skus.values() if s.age_restricted)
-    secondary_eligible = sum(1 for s in model.skus.values() if s.secondary_display_eligible)
+    age_restricted = sum(1 for sm in model.sku_merchandising.values() if sm.age_restricted)
+    secondary_eligible = sum(1 for sm in model.sku_merchandising.values() if sm.secondary_display_eligible)
     add()
     add("-" * 60)
     add("SKU FLAGS")
     add("-" * 60)
     add(f"  Private label:              {private_label:>6,}  ({private_label / n * 100:5.1f}%)")
     add(f"  Perishable:                 {perishable:>6,}  ({perishable / n * 100:5.1f}%)")
-    add(f"  Age-restricted:             {age_restricted:>6,}  ({age_restricted / n * 100:5.1f}%)")
-    add(f"  Secondary/impulse eligible: {secondary_eligible:>6,}  ({secondary_eligible / n * 100:5.1f}%)")
+    add(f"  Age-restricted:             {age_restricted:>6,}  ({age_restricted / nm * 100:5.1f}%)")
+    add(f"  Secondary/impulse eligible: {secondary_eligible:>6,}  ({secondary_eligible / nm * 100:5.1f}%)")
 
     # --- Assortment status breakdown ---
-    status_counts = Counter(s.assortment_status for s in model.skus.values())
+    status_counts = Counter(sm.assortment_status for sm in model.sku_merchandising.values())
     add()
     add("-" * 60)
     add("ASSORTMENT STATUS")
     add("-" * 60)
     for status, count in status_counts.most_common():
-        add(f"  {status:<28} {count:>6,}  ({count / n * 100:5.1f}%)")
+        add(f"  {status:<28} {count:>6,}  ({count / nm * 100:5.1f}%)")
 
     # --- Price / margin stats ---
     prices = [s.retail_price for s in model.skus.values()]
-    margins = [s.gross_margin_pct for s in model.skus.values()]
+    margins = [sm.gross_margin_pct for sm in model.sku_merchandising.values()]
     add()
     add("-" * 60)
     add("PRICE / MARGIN")
     add("-" * 60)
     add(f"  Retail price:  min ${min(prices):.2f}   max ${max(prices):.2f}   avg ${sum(prices) / n:.2f}")
-    add(f"  Gross margin:  min {min(margins):.1%}   max {max(margins):.1%}   avg {sum(margins) / n:.1%}")
+    add(f"  Gross margin:  min {min(margins):.1%}   max {max(margins):.1%}   avg {sum(margins) / nm:.1%}")
 
     # --- Categories ---
     role_counts = Counter(c.category_role for c in model.categories.values())

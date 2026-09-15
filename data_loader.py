@@ -10,12 +10,21 @@ The workbook must have been through recalc.py at least once for those cached
 values to be present; if every SKU's product-owned field reads as NaN, that's
 the symptom and re-running recalc.py on the source file is the fix.
 
-As of this revision, SKU Merchandising Attributes no longer carries Current
+As of this revision, SKU Merchandising (renamed from "SKU Merchandising
+Attributes" — the "Attributes" was superfluous) no longer carries Current
 Facings Assigned / Current Linear Space Assigned (in) / Shelf Level Assigned
 — that assignment data lives once, on each SKU's Primary Shelf row in SKU
 Placements (Facings / Linear Space Assigned (in) / the new Shelf Level
-column). load_skus() no longer reads those three columns; load_placements()
-reads the new Shelf Level column into Placement.shelf_level.
+column). load_placements() reads the new Shelf Level column into
+Placement.shelf_level.
+
+load_skus() reads SKU Master only — it does NOT read SKU Merchandising.
+Package dimensions, unit cost, gross margin, assortment status, and the
+rest of that sheet's columns are loaded exclusively by
+load_sku_merchandising(), into standalone SKU_Merchandising objects (dict
+keyed by SKU id, on SupermarketModel.sku_merchandising). An earlier
+revision merged this sheet onto SKU as well; that duplication has been
+removed — SKU_Merchandising is now the sole source for these attributes.
 
 --- Workbook path resolution ---
 
@@ -44,7 +53,7 @@ from typing import Optional
 
 import pandas as pd
 
-from models import Product, SKU, Category, Placement, SupermarketModel
+from models import Product, SKU, Category, Placement, SKU_Merchandising, SupermarketModel
 
 PROJECT_MOUNT_PATH = Path("/mnt/project/supermarket_operations_data.xlsx")
 CONFIG_PATH = Path(__file__).parent / "config.json"
@@ -133,23 +142,17 @@ def load_products(path: Path) -> dict[str, Product]:
 
 
 def load_skus(path: Path, products: dict[str, Product]) -> dict[str, SKU]:
+    """
+    Builds SKU from SKU Master alone. Does NOT read the SKU Merchandising
+    sheet — those attributes (package dimensions, cost, margin, assortment
+    status, etc.) live solely on SKU_Merchandising now; see
+    load_sku_merchandising() and models.py's SKU / SKU_Merchandising
+    docstrings for why.
+    """
     master = pd.read_excel(path, sheet_name="SKU Master", dtype={"UPC (fictional)": str})
-    attrs = pd.read_excel(path, sheet_name="SKU Merchandising Attributes")
-
-    # Both sheets are documented as aligned 1:1 by row order (see project
-    # instructions). Verify before trusting positional merge.
-    if len(master) != len(attrs):
-        raise ValueError(
-            f"SKU Master ({len(master)} rows) and SKU Merchandising Attributes "
-            f"({len(attrs)} rows) are no longer aligned 1:1 — cannot merge by row order."
-        )
-    mismatched = (master["SKU"].reset_index(drop=True) != attrs["SKU"].reset_index(drop=True))
-    if mismatched.any():
-        bad_rows = mismatched[mismatched].index.tolist()[:5]
-        raise ValueError(f"SKU id mismatch between sheets at row(s) {bad_rows} — row-order alignment is broken.")
 
     skus: dict[str, SKU] = {}
-    for m, a in zip(master.to_dict(orient="records"), attrs.to_dict(orient="records")):
+    for m in master.to_dict(orient="records"):
         sku_id = str(m["SKU"])
         upc = str(m["UPC (fictional)"])
         product = products.get(upc)
@@ -162,20 +165,65 @@ def load_skus(path: Path, products: dict[str, Product]) -> dict[str, SKU]:
             uom=_clean_str(m["UOM"]),
             sales_velocity=float(m["Sales Velocity (units/store/wk)"]),
             reorder_point=int(m["Reorder Point (units)"]),
-            package_width_in=float(a["Package Width (in)"]),
-            package_height_in=float(a["Package Height (in)"]),
-            package_depth_in=float(a["Package Depth (in)"]),
-            shelf_orientation=_clean_str(a["Shelf Orientation"]),
-            stackable=_yn_to_bool(a["Stackable (Y/N)"]),
-            unit_cost=float(a["Unit Cost ($)"]),
-            gross_margin_pct=float(a["Gross Margin (%)"]),
-            assortment_status=_clean_str(a["Assortment Status"]),
-            seasonality_window=_clean_str(a["Seasonality Window"]),
-            age_restricted=_yn_to_bool(a["Age-Restricted (Y/N)"]),
-            allergen_flag=_clean_str(a["Allergen Flag"]),
-            secondary_display_eligible=_yn_to_bool(a["Secondary/Impulse Display Eligible (Y/N)"]),
         )
     return skus
+
+
+def load_sku_merchandising(path: Path, sku_master_order: list[str]) -> dict[str, SKU_Merchandising]:
+    """
+    Loads the SKU Merchandising sheet as its own standalone object per row,
+    keyed by SKU id. This is now the sole loader for these attributes —
+    load_skus() no longer reads this sheet at all (see its docstring).
+
+    sku_master_order is SKU Master's SKU column, in its own row order (pass
+    list(skus.keys()) from load_skus() — dict insertion order preserves it).
+    The sheet is documented as row-order-aligned 1:1 to SKU Master (see
+    README's per-SKU-sheet convention); that's verified here even though
+    records are keyed by the sheet's own SKU column values (a lookup formula
+    back to SKU Master) rather than by position, so a violation wouldn't
+    silently corrupt this function's output — it would just mean the
+    workbook invariant other per-SKU sheets rely on is broken.
+
+    SKU and Description are themselves lookup formulas on this sheet (back
+    to SKU Master), so they're read here the same as any other column —
+    not re-derived — keeping this loader a direct, literal mirror of the
+    sheet as it exists in the workbook.
+    """
+    df = pd.read_excel(path, sheet_name="SKU Merchandising")
+
+    if len(df) != len(sku_master_order):
+        raise ValueError(
+            f"SKU Merchandising ({len(df)} rows) and SKU Master ({len(sku_master_order)} rows) "
+            "are no longer aligned 1:1 — row-order alignment is broken."
+        )
+    sheet_order = df["SKU"].astype(str).tolist()
+    mismatched = [i for i, (a, b) in enumerate(zip(sheet_order, sku_master_order)) if a != b]
+    if mismatched:
+        raise ValueError(
+            f"SKU id mismatch between SKU Merchandising and SKU Master at row(s) {mismatched[:5]} "
+            "— row-order alignment is broken."
+        )
+
+    records: dict[str, SKU_Merchandising] = {}
+    for d in df.to_dict(orient="records"):
+        sku_id = str(d["SKU"])
+        records[sku_id] = SKU_Merchandising(
+            sku_id=sku_id,
+            description=_clean_str(d["Description"]),
+            package_width_in=float(d["Package Width (in)"]),
+            package_height_in=float(d["Package Height (in)"]),
+            package_depth_in=float(d["Package Depth (in)"]),
+            shelf_orientation=_clean_str(d["Shelf Orientation"]),
+            stackable=_yn_to_bool(d["Stackable (Y/N)"]),
+            unit_cost=float(d["Unit Cost ($)"]),
+            gross_margin_pct=float(d["Gross Margin (%)"]),
+            assortment_status=_clean_str(d["Assortment Status"]),
+            seasonality_window=_clean_str(d["Seasonality Window"]),
+            age_restricted=_yn_to_bool(d["Age-Restricted (Y/N)"]),
+            allergen_flag=_clean_str(d["Allergen Flag"]),
+            secondary_display_eligible=_yn_to_bool(d["Secondary/Impulse Display Eligible (Y/N)"]),
+        )
+    return records
 
 
 def load_categories(path: Path) -> dict[tuple[str, str], Category]:
@@ -252,20 +300,29 @@ def load_model(path: Optional[Path] = None) -> SupermarketModel:
         path = resolve_default_data_path()
     products = load_products(path)
     skus = load_skus(path, products)
+    sku_merchandising = load_sku_merchandising(path, list(skus.keys()))
     categories = load_categories(path)
     placements = load_placements(path, skus)
-    return SupermarketModel(products=products, skus=skus, categories=categories, placements=placements)
+    return SupermarketModel(
+        products=products,
+        skus=skus,
+        sku_merchandising=sku_merchandising,
+        categories=categories,
+        placements=placements,
+    )
 
 
 if __name__ == "__main__":
     model = load_model()
-    print(f"Products:   {len(model.products)}")
-    print(f"SKUs:       {len(model.skus)}")
-    print(f"Categories: {len(model.categories)}")
-    print(f"Placements: {len(model.placements)}")
+    print(f"Products:          {len(model.products)}")
+    print(f"SKUs:              {len(model.skus)}")
+    print(f"SKU Merchandising: {len(model.sku_merchandising)}")
+    print(f"Categories:        {len(model.categories)}")
+    print(f"Placements:        {len(model.placements)}")
     sample = next(iter(model.skus.values()))
+    sample_merch = model.sku_merchandising[sample.sku_id]
     print(f"\nSample SKU: {sample.sku_id} — {sample.description} ({sample.brand}, {sample.department}/{sample.category})")
-    print(f"  retail_price=${sample.retail_price}  margin={sample.gross_margin_pct:.1%}  shelf={sample.shelf_level_assigned}")
+    print(f"  retail_price=${sample.retail_price}  margin={sample_merch.gross_margin_pct:.1%}  shelf={sample.shelf_level_assigned}")
     print(f"  placements: {len(sample.placements)}")
 
     multi = [s for s in model.skus.values() if len(s.placements) > 1]

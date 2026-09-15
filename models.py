@@ -7,11 +7,15 @@ Sources tab, "Workbook structure" note):
   Product Master               -> Product    (item-level record, keyed by UPC —
                                                what a UPC lookup / GS1 data pool
                                                would return)
-  SKU Master +
-  SKU Merchandising Attributes -> SKU        (the retailer's store-level
-                                               inventory record; the two sheets
-                                               are aligned 1:1 by row order and
-                                               merged into one object here)
+  SKU Master                   -> SKU        (the retailer's store-level
+                                               inventory record — inventory-
+                                               only literals: UOM, sales
+                                               velocity, reorder point)
+  SKU Merchandising            -> SKU_Merchandising (per-SKU merchandising
+                                               attributes: physical footprint,
+                                               cost/margin, assortment status —
+                                               a standalone object, not merged
+                                               onto SKU; see its docstring)
   Category Space Allocation    -> Category   (one per Department+Category)
   SKU Placements                -> Placement (many-to-one child of SKU — a SKU
                                                can have a Primary Shelf
@@ -33,11 +37,11 @@ source-of-truth design.
 
 SKU Placements is a genuine one-to-many child table, keyed by SKU (ref) as a
 foreign key — NOT row-order-aligned to SKU Master the way SKU Merchandising
-Attributes is. It's current-state-only (no historical log): a row's presence
+is. It's current-state-only (no historical log): a row's presence
 IS its active status.
 
 As of this revision, assigned facings, linear space, and shelf level are
-NOT duplicated onto SKU Merchandising Attributes. They live once, on each
+NOT duplicated onto SKU Merchandising. They live once, on each
 SKU's Primary Shelf placement row (SKU Placements columns Facings, Linear
 Space Assigned (in), and the new Shelf Level column). SKU exposes them as
 derived properties that read through to that row — see
@@ -77,8 +81,13 @@ class Product:
 @dataclass
 class SKU:
     """
-    One store-level inventory record: SKU Master merged 1:1 with SKU
-    Merchandising Attributes (both keyed by SKU id, same row order).
+    One store-level inventory record, built from SKU Master alone.
+
+    Package dimensions, unit cost, gross margin, assortment status, and the
+    other merchandising attributes formerly duplicated here from the SKU
+    Merchandising sheet now live solely on SKU_Merchandising (see below,
+    and data_loader.load_sku_merchandising()) — look them up there via
+    SupermarketModel.sku_merchandising[sku_id], not on SKU.
     """
 
     sku_id: str
@@ -88,20 +97,6 @@ class SKU:
     uom: str
     sales_velocity: float  # units/store/week
     reorder_point: int  # units
-
-    # --- SKU Merchandising Attributes ---
-    package_width_in: float
-    package_height_in: float
-    package_depth_in: float
-    shelf_orientation: str
-    stackable: bool
-    unit_cost: float
-    gross_margin_pct: float
-    assortment_status: str
-    seasonality_window: str
-    age_restricted: bool
-    allergen_flag: str
-    secondary_display_eligible: bool
 
     # --- Back-reference: all current placements of this SKU (Primary Shelf
     #     plus any Secondary/Impulse Display or Cross-Merchandised rows).
@@ -179,6 +174,39 @@ class SKU:
 
 
 @dataclass
+class SKU_Merchandising:
+    """
+    One row of SKU Merchandising (renamed from "SKU Merchandising
+    Attributes" — the "Attributes" was superfluous), loaded as its own
+    standalone object rather than merged into SKU.
+
+    This is the sole home of these fields — SKU no longer carries package
+    dimensions, unit cost, gross margin, assortment status, or the other
+    merchandising attributes below; load_skus() in data_loader.py doesn't
+    read this sheet at all. (An earlier revision loaded this sheet twice —
+    once merged onto SKU, once standalone here — as a deliberate first
+    pass to see the entity on its own before deciding what to prune; that
+    decision is made now, in SKU's favor of staying lean.)
+    """
+
+    sku_id: str  # "SKU" column — a lookup formula back to SKU Master, read here as a literal
+    description: str  # lookup formula back to SKU Master
+
+    package_width_in: float
+    package_height_in: float
+    package_depth_in: float
+    shelf_orientation: str
+    stackable: bool
+    unit_cost: float
+    gross_margin_pct: float  # formula: (Retail Price - Unit Cost) / Retail Price
+    assortment_status: str
+    seasonality_window: str
+    age_restricted: bool
+    allergen_flag: str
+    secondary_display_eligible: bool
+
+
+@dataclass
 class Category:
     """One row of Category Space Allocation — one per Department+Category."""
 
@@ -249,6 +277,7 @@ class SupermarketModel:
 
     products: dict[str, Product] = field(default_factory=dict)  # keyed by UPC
     skus: dict[str, SKU] = field(default_factory=dict)  # keyed by SKU id
+    sku_merchandising: dict[str, SKU_Merchandising] = field(default_factory=dict)  # keyed by SKU id
     categories: dict[tuple[str, str], Category] = field(default_factory=dict)  # keyed by (Department, Category)
     placements: dict[str, Placement] = field(default_factory=dict)  # keyed by Placement ID
 
