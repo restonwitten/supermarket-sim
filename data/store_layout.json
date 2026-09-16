@@ -7,7 +7,8 @@
     "drawing_rule": "Each object = one rectangular 3D block (a SketchUp group or component) representing the fixture's overall footprint and height. Do NOT draw individual shelves \u2014 vertical shelf bands (see 'shelf_bands') are computed later by evenly subdividing each block's height.",
     "target_footprint_sqft": 45000,
     "format_class": "conventional supermarket (Ch. 1.1)",
-    "layout_notes": "Ch. 1.3: perimeter placement for produce/meat/deli/bakery/dairy (flagged via 'perimeter_department' below) with center-store grocery in the interior aisles. Ch. 1.4: produce near the entrance, dairy toward the back to pull shoppers through center aisles. Ch. 1.5: grid aisle layout is dominant for supermarkets. These are placement guidelines for where YOU position each block, not computed coordinates."
+    "layout_notes": "Ch. 1.3: perimeter placement for produce/meat/deli/bakery/dairy (flagged via 'perimeter_department' below) with center-store grocery in the interior aisles. Ch. 1.4: produce near the entrance, dairy toward the back to pull shoppers through center aisles. Ch. 1.5: grid aisle layout is dominant for supermarkets. These are placement guidelines for where YOU position each block, not computed coordinates.",
+    "nesting_rule": "Nested groups are fine for extraction as long as every group at every level has a unique name \u2014 the earlier no-nesting guidance was really about avoiding duplicate names from copied components, not nesting itself. Shelf sub-objects use the pattern {fixture_sketchup_object_name}_SHELF_{BAND}, e.g. GOND_baby_care_baby_food_SHELF_BOTTOM."
   },
   "primary_fixtures": [
     {
@@ -29,7 +30,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_baby_care_baby_food_SHELF_BOTTOM",
+        "Middle": "GOND_baby_care_baby_food_SHELF_MIDDLE",
+        "Eye-Level": "GOND_baby_care_baby_food_SHELF_EYE_LEVEL",
+        "Top": "GOND_baby_care_baby_food_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-baby_care-diapers",
@@ -50,7 +63,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_baby_care_diapers_SHELF_BOTTOM",
+        "Middle": "GOND_baby_care_diapers_SHELF_MIDDLE",
+        "Eye-Level": "GOND_baby_care_diapers_SHELF_EYE_LEVEL",
+        "Top": "GOND_baby_care_diapers_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-baby_care-formula",
@@ -71,7 +96,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_baby_care_formula_SHELF_BOTTOM",
+        "Middle": "GOND_baby_care_formula_SHELF_MIDDLE",
+        "Eye-Level": "GOND_baby_care_formula_SHELF_EYE_LEVEL",
+        "Top": "GOND_baby_care_formula_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-baby_care-wipes",
@@ -92,7 +129,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_baby_care_wipes_SHELF_BOTTOM",
+        "Middle": "GOND_baby_care_wipes_SHELF_MIDDLE",
+        "Eye-Level": "GOND_baby_care_wipes_SHELF_EYE_LEVEL",
+        "Top": "GOND_baby_care_wipes_SHELF_TOP"
+      }
     },
     {
       "id": "BAKE-bakery-bread",
@@ -113,7 +162,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "BAKE_bakery_bread_SHELF_BOTTOM",
+        "Middle": "BAKE_bakery_bread_SHELF_MIDDLE",
+        "Eye-Level": "BAKE_bakery_bread_SHELF_EYE_LEVEL",
+        "Top": "BAKE_bakery_bread_SHELF_TOP"
+      }
     },
     {
       "id": "BAKE-bakery-cakes_and_desserts",
@@ -134,7 +195,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "BAKE_bakery_cakes_and_desserts_SHELF_BOTTOM",
+        "Middle": "BAKE_bakery_cakes_and_desserts_SHELF_MIDDLE",
+        "Eye-Level": "BAKE_bakery_cakes_and_desserts_SHELF_EYE_LEVEL",
+        "Top": "BAKE_bakery_cakes_and_desserts_SHELF_TOP"
+      }
     },
     {
       "id": "BAKE-bakery-cookies_and_pastries",
@@ -155,7 +228,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "BAKE_bakery_cookies_and_pastries_SHELF_BOTTOM",
+        "Middle": "BAKE_bakery_cookies_and_pastries_SHELF_MIDDLE",
+        "Eye-Level": "BAKE_bakery_cookies_and_pastries_SHELF_EYE_LEVEL",
+        "Top": "BAKE_bakery_cookies_and_pastries_SHELF_TOP"
+      }
     },
     {
       "id": "BAKE-bakery-rolls_and_buns",
@@ -176,7 +261,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "BAKE_bakery_rolls_and_buns_SHELF_BOTTOM",
+        "Middle": "BAKE_bakery_rolls_and_buns_SHELF_MIDDLE",
+        "Eye-Level": "BAKE_bakery_rolls_and_buns_SHELF_EYE_LEVEL",
+        "Top": "BAKE_bakery_rolls_and_buns_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-beer_and_wine-craft_and_import_beer",
@@ -197,7 +294,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_beer_and_wine_craft_and_import_beer_SHELF_BOTTOM",
+        "Middle": "RIC_beer_and_wine_craft_and_import_beer_SHELF_MIDDLE",
+        "Eye-Level": "RIC_beer_and_wine_craft_and_import_beer_SHELF_EYE_LEVEL",
+        "Top": "RIC_beer_and_wine_craft_and_import_beer_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-beer_and_wine-domestic_beer",
@@ -218,7 +327,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_beer_and_wine_domestic_beer_SHELF_BOTTOM",
+        "Middle": "RIC_beer_and_wine_domestic_beer_SHELF_MIDDLE",
+        "Eye-Level": "RIC_beer_and_wine_domestic_beer_SHELF_EYE_LEVEL",
+        "Top": "RIC_beer_and_wine_domestic_beer_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-beer_and_wine-red_wine",
@@ -239,7 +360,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_beer_and_wine_red_wine_SHELF_BOTTOM",
+        "Middle": "GOND_beer_and_wine_red_wine_SHELF_MIDDLE",
+        "Eye-Level": "GOND_beer_and_wine_red_wine_SHELF_EYE_LEVEL",
+        "Top": "GOND_beer_and_wine_red_wine_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-beer_and_wine-white_wine",
@@ -260,7 +393,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_beer_and_wine_white_wine_SHELF_BOTTOM",
+        "Middle": "RIC_beer_and_wine_white_wine_SHELF_MIDDLE",
+        "Eye-Level": "RIC_beer_and_wine_white_wine_SHELF_EYE_LEVEL",
+        "Top": "RIC_beer_and_wine_white_wine_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-beverages-carbonated_soft_drinks",
@@ -281,7 +426,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_beverages_carbonated_soft_drinks_SHELF_BOTTOM",
+        "Middle": "GOND_beverages_carbonated_soft_drinks_SHELF_MIDDLE",
+        "Eye-Level": "GOND_beverages_carbonated_soft_drinks_SHELF_EYE_LEVEL",
+        "Top": "GOND_beverages_carbonated_soft_drinks_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-beverages-coffee_and_kombucha_drinks",
@@ -302,7 +459,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_BOTTOM",
+        "Middle": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_MIDDLE",
+        "Eye-Level": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_EYE_LEVEL",
+        "Top": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-beverages-juice",
@@ -323,7 +492,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_beverages_juice_SHELF_BOTTOM",
+        "Middle": "GOND_beverages_juice_SHELF_MIDDLE",
+        "Eye-Level": "GOND_beverages_juice_SHELF_EYE_LEVEL",
+        "Top": "GOND_beverages_juice_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-beverages-sports_and_energy_drinks",
@@ -344,7 +525,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_beverages_sports_and_energy_drinks_SHELF_BOTTOM",
+        "Middle": "GOND_beverages_sports_and_energy_drinks_SHELF_MIDDLE",
+        "Eye-Level": "GOND_beverages_sports_and_energy_drinks_SHELF_EYE_LEVEL",
+        "Top": "GOND_beverages_sports_and_energy_drinks_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-beverages-water",
@@ -365,7 +558,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_beverages_water_SHELF_BOTTOM",
+        "Middle": "GOND_beverages_water_SHELF_MIDDLE",
+        "Eye-Level": "GOND_beverages_water_SHELF_EYE_LEVEL",
+        "Top": "GOND_beverages_water_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-butter_and_margarine",
@@ -386,7 +591,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-cheese",
@@ -407,7 +624,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_cheese_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_cheese_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_cheese_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_cheese_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-eggs",
@@ -428,7 +657,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_eggs_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_eggs_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_eggs_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_eggs_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-milk",
@@ -449,7 +690,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_milk_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_milk_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_milk_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_milk_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-plant_based_dairy",
@@ -470,7 +723,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-refrigerated_dough",
@@ -491,7 +756,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-refrigerated_juice",
@@ -512,7 +789,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-dairy_and_eggs-yogurt",
@@ -533,7 +822,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_dairy_and_eggs_yogurt_SHELF_BOTTOM",
+        "Middle": "RIC_dairy_and_eggs_yogurt_SHELF_MIDDLE",
+        "Eye-Level": "RIC_dairy_and_eggs_yogurt_SHELF_EYE_LEVEL",
+        "Top": "RIC_dairy_and_eggs_yogurt_SHELF_TOP"
+      }
     },
     {
       "id": "DELI-deli-olives_and_antipasti",
@@ -554,7 +855,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "DELI_deli_olives_and_antipasti_SHELF_BOTTOM",
+        "Middle": "DELI_deli_olives_and_antipasti_SHELF_MIDDLE",
+        "Eye-Level": "DELI_deli_olives_and_antipasti_SHELF_EYE_LEVEL",
+        "Top": "DELI_deli_olives_and_antipasti_SHELF_TOP"
+      }
     },
     {
       "id": "DELI-deli-prepared_foods",
@@ -575,7 +888,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "DELI_deli_prepared_foods_SHELF_BOTTOM",
+        "Middle": "DELI_deli_prepared_foods_SHELF_MIDDLE",
+        "Eye-Level": "DELI_deli_prepared_foods_SHELF_EYE_LEVEL",
+        "Top": "DELI_deli_prepared_foods_SHELF_TOP"
+      }
     },
     {
       "id": "DELI-deli-sliced_cheese",
@@ -596,7 +921,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "DELI_deli_sliced_cheese_SHELF_BOTTOM",
+        "Middle": "DELI_deli_sliced_cheese_SHELF_MIDDLE",
+        "Eye-Level": "DELI_deli_sliced_cheese_SHELF_EYE_LEVEL",
+        "Top": "DELI_deli_sliced_cheese_SHELF_TOP"
+      }
     },
     {
       "id": "DELI-deli-sliced_meats",
@@ -617,7 +954,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "DELI_deli_sliced_meats_SHELF_BOTTOM",
+        "Middle": "DELI_deli_sliced_meats_SHELF_MIDDLE",
+        "Eye-Level": "DELI_deli_sliced_meats_SHELF_EYE_LEVEL",
+        "Top": "DELI_deli_sliced_meats_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-baking_ingredients",
@@ -638,7 +987,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_baking_ingredients_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_baking_ingredients_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_baking_ingredients_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_baking_ingredients_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-baking_mixes",
@@ -659,7 +1020,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_baking_mixes_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_baking_mixes_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_baking_mixes_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_baking_mixes_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-boxed_dinner_kits",
@@ -680,7 +1053,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_boxed_dinner_kits_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_boxed_dinner_kits_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_boxed_dinner_kits_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_boxed_dinner_kits_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-broth_and_stock",
@@ -701,7 +1086,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_broth_and_stock_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_broth_and_stock_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_broth_and_stock_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_broth_and_stock_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-candy",
@@ -722,7 +1119,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_candy_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_candy_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_candy_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_candy_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-canned_beans_and_legumes",
@@ -743,7 +1152,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-canned_fruit",
@@ -764,7 +1185,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_canned_fruit_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_canned_fruit_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_canned_fruit_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_canned_fruit_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-canned_meat_and_fish",
@@ -785,7 +1218,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_canned_meat_and_fish_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_canned_meat_and_fish_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_canned_meat_and_fish_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_canned_meat_and_fish_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-canned_soup",
@@ -806,7 +1251,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_canned_soup_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_canned_soup_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_canned_soup_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_canned_soup_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-canned_vegetables",
@@ -827,7 +1284,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_canned_vegetables_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_canned_vegetables_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_canned_vegetables_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_canned_vegetables_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-coffee",
@@ -848,7 +1317,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_coffee_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_coffee_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_coffee_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_coffee_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-condiments",
@@ -869,7 +1350,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_condiments_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_condiments_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_condiments_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_condiments_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-cookies",
@@ -890,7 +1383,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_cookies_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_cookies_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_cookies_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_cookies_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-crackers",
@@ -911,7 +1416,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_crackers_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_crackers_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_crackers_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_crackers_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-granola_and_breakfast_bars",
@@ -932,7 +1449,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-gum_and_mints",
@@ -953,7 +1482,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_gum_and_mints_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_gum_and_mints_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_gum_and_mints_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_gum_and_mints_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-hot_cereal",
@@ -974,7 +1515,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_hot_cereal_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_hot_cereal_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_hot_cereal_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_hot_cereal_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-international_foods",
@@ -995,7 +1548,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_international_foods_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_international_foods_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_international_foods_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_international_foods_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-nuts_and_trail_mix",
@@ -1016,7 +1581,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-oils_and_vinegar",
@@ -1037,7 +1614,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_oils_and_vinegar_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_oils_and_vinegar_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_oils_and_vinegar_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_oils_and_vinegar_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-pancake_mix_and_syrup",
@@ -1058,7 +1647,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-pasta",
@@ -1079,7 +1680,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_pasta_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_pasta_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_pasta_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_pasta_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-pasta_sauce",
@@ -1100,7 +1713,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_pasta_sauce_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_pasta_sauce_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_pasta_sauce_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_pasta_sauce_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-peanut_butter_and_jelly",
@@ -1121,7 +1746,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-ready_to_eat_cereal",
@@ -1142,7 +1779,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-rice_and_grains",
@@ -1163,7 +1812,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_rice_and_grains_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_rice_and_grains_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_rice_and_grains_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_rice_and_grains_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-salad_dressing",
@@ -1184,7 +1845,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_salad_dressing_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_salad_dressing_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_salad_dressing_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_salad_dressing_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-snack_chips",
@@ -1205,7 +1878,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_snack_chips_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_snack_chips_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_snack_chips_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_snack_chips_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-spices_and_seasonings",
@@ -1226,7 +1911,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_spices_and_seasonings_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_spices_and_seasonings_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_spices_and_seasonings_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_spices_and_seasonings_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-dry_grocery-tea",
@@ -1247,7 +1944,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_dry_grocery_tea_SHELF_BOTTOM",
+        "Middle": "GOND_dry_grocery_tea_SHELF_MIDDLE",
+        "Eye-Level": "GOND_dry_grocery_tea_SHELF_EYE_LEVEL",
+        "Top": "GOND_dry_grocery_tea_SHELF_TOP"
+      }
     },
     {
       "id": "FLORC-floral-cut_flowers",
@@ -1268,7 +1977,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "FLORC_floral_cut_flowers_SHELF_BOTTOM",
+        "Middle": "FLORC_floral_cut_flowers_SHELF_MIDDLE",
+        "Eye-Level": "FLORC_floral_cut_flowers_SHELF_EYE_LEVEL",
+        "Top": "FLORC_floral_cut_flowers_SHELF_TOP"
+      }
     },
     {
       "id": "FDISP-floral-potted_plants",
@@ -1289,7 +2010,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "FDISP_floral_potted_plants_SHELF_BOTTOM",
+        "Middle": "FDISP_floral_potted_plants_SHELF_MIDDLE",
+        "Eye-Level": "FDISP_floral_potted_plants_SHELF_EYE_LEVEL",
+        "Top": "FDISP_floral_potted_plants_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_appetizers",
@@ -1310,7 +2043,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_appetizers_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_appetizers_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_appetizers_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_appetizers_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_bread_and_dough",
@@ -1331,7 +2076,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_breakfast",
@@ -1352,7 +2109,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_breakfast_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_breakfast_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_breakfast_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_breakfast_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_entrees_and_meals",
@@ -1373,7 +2142,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_fruit",
@@ -1394,7 +2175,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_fruit_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_fruit_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_fruit_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_fruit_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_pizza",
@@ -1415,7 +2208,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_pizza_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_pizza_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_pizza_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_pizza_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_potatoes",
@@ -1436,7 +2241,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_potatoes_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_potatoes_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_potatoes_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_potatoes_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_seafood",
@@ -1457,7 +2274,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_seafood_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_seafood_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_seafood_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_seafood_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-frozen_vegetables",
@@ -1478,7 +2307,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_frozen_vegetables_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_frozen_vegetables_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_frozen_vegetables_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_frozen_vegetables_SHELF_TOP"
+      }
     },
     {
       "id": "RIF-frozen_foods-ice_cream_and_novelties",
@@ -1499,7 +2340,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_BOTTOM",
+        "Middle": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_MIDDLE",
+        "Eye-Level": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_EYE_LEVEL",
+        "Top": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-general_merchandise-automotive",
@@ -1520,7 +2373,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_general_merchandise_automotive_SHELF_BOTTOM",
+        "Middle": "GOND_general_merchandise_automotive_SHELF_MIDDLE",
+        "Eye-Level": "GOND_general_merchandise_automotive_SHELF_EYE_LEVEL",
+        "Top": "GOND_general_merchandise_automotive_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-general_merchandise-batteries_and_electronics",
@@ -1541,7 +2406,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_general_merchandise_batteries_and_electronics_SHELF_BOTTOM",
+        "Middle": "GOND_general_merchandise_batteries_and_electronics_SHELF_MIDDLE",
+        "Eye-Level": "GOND_general_merchandise_batteries_and_electronics_SHELF_EYE_LEVEL",
+        "Top": "GOND_general_merchandise_batteries_and_electronics_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-general_merchandise-greeting_cards_and_party",
@@ -1562,7 +2439,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_general_merchandise_greeting_cards_and_party_SHELF_BOTTOM",
+        "Middle": "GOND_general_merchandise_greeting_cards_and_party_SHELF_MIDDLE",
+        "Eye-Level": "GOND_general_merchandise_greeting_cards_and_party_SHELF_EYE_LEVEL",
+        "Top": "GOND_general_merchandise_greeting_cards_and_party_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-general_merchandise-kitchenware_and_storage",
@@ -1583,7 +2472,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_general_merchandise_kitchenware_and_storage_SHELF_BOTTOM",
+        "Middle": "GOND_general_merchandise_kitchenware_and_storage_SHELF_MIDDLE",
+        "Eye-Level": "GOND_general_merchandise_kitchenware_and_storage_SHELF_EYE_LEVEL",
+        "Top": "GOND_general_merchandise_kitchenware_and_storage_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-general_merchandise-office_and_school",
@@ -1604,7 +2505,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_general_merchandise_office_and_school_SHELF_BOTTOM",
+        "Middle": "GOND_general_merchandise_office_and_school_SHELF_MIDDLE",
+        "Eye-Level": "GOND_general_merchandise_office_and_school_SHELF_EYE_LEVEL",
+        "Top": "GOND_general_merchandise_office_and_school_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-general_merchandise-seasonal",
@@ -1625,7 +2538,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_general_merchandise_seasonal_SHELF_BOTTOM",
+        "Middle": "GOND_general_merchandise_seasonal_SHELF_MIDDLE",
+        "Eye-Level": "GOND_general_merchandise_seasonal_SHELF_EYE_LEVEL",
+        "Top": "GOND_general_merchandise_seasonal_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-deodorant",
@@ -1646,7 +2571,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_deodorant_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_deodorant_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_deodorant_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_deodorant_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-feminine_care",
@@ -1667,7 +2604,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_feminine_care_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_feminine_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_feminine_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_feminine_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-first_aid",
@@ -1688,7 +2637,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_first_aid_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_first_aid_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_first_aid_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_first_aid_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-hair_care",
@@ -1709,7 +2670,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_hair_care_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_hair_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_hair_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_hair_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-oral_care",
@@ -1730,7 +2703,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_oral_care_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_oral_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_oral_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_oral_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-shaving",
@@ -1751,7 +2736,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_shaving_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_shaving_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_shaving_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_shaving_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-skin_care",
@@ -1772,7 +2769,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_skin_care_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_skin_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_skin_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_skin_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-health_and_beauty_care-vision_and_hearing",
@@ -1793,7 +2802,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_BOTTOM",
+        "Middle": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_MIDDLE",
+        "Eye-Level": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_EYE_LEVEL",
+        "Top": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-air_care",
@@ -1814,7 +2835,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_air_care_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_air_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_air_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_air_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-bathroom_cleaners",
@@ -1835,7 +2868,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-dish_care",
@@ -1856,7 +2901,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_dish_care_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_dish_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_dish_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_dish_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-laundry_care",
@@ -1877,7 +2934,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_laundry_care_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_laundry_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_laundry_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_laundry_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-pest_control",
@@ -1898,7 +2967,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_pest_control_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_pest_control_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_pest_control_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_pest_control_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-surface_cleaners",
@@ -1919,7 +3000,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_surface_cleaners_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_surface_cleaners_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_surface_cleaners_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_surface_cleaners_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-household_and_cleaning-trash_bags",
@@ -1940,7 +3033,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_household_and_cleaning_trash_bags_SHELF_BOTTOM",
+        "Middle": "GOND_household_and_cleaning_trash_bags_SHELF_MIDDLE",
+        "Eye-Level": "GOND_household_and_cleaning_trash_bags_SHELF_EYE_LEVEL",
+        "Top": "GOND_household_and_cleaning_trash_bags_SHELF_TOP"
+      }
     },
     {
       "id": "SVCCASE-meat_and_seafood-beef",
@@ -1961,7 +3066,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "SVCCASE_meat_and_seafood_beef_SHELF_BOTTOM",
+        "Middle": "SVCCASE_meat_and_seafood_beef_SHELF_MIDDLE",
+        "Eye-Level": "SVCCASE_meat_and_seafood_beef_SHELF_EYE_LEVEL",
+        "Top": "SVCCASE_meat_and_seafood_beef_SHELF_TOP"
+      }
     },
     {
       "id": "SVCCASE-meat_and_seafood-pork",
@@ -1982,7 +3099,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "SVCCASE_meat_and_seafood_pork_SHELF_BOTTOM",
+        "Middle": "SVCCASE_meat_and_seafood_pork_SHELF_MIDDLE",
+        "Eye-Level": "SVCCASE_meat_and_seafood_pork_SHELF_EYE_LEVEL",
+        "Top": "SVCCASE_meat_and_seafood_pork_SHELF_TOP"
+      }
     },
     {
       "id": "SVCCASE-meat_and_seafood-poultry",
@@ -2003,7 +3132,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "SVCCASE_meat_and_seafood_poultry_SHELF_BOTTOM",
+        "Middle": "SVCCASE_meat_and_seafood_poultry_SHELF_MIDDLE",
+        "Eye-Level": "SVCCASE_meat_and_seafood_poultry_SHELF_EYE_LEVEL",
+        "Top": "SVCCASE_meat_and_seafood_poultry_SHELF_TOP"
+      }
     },
     {
       "id": "SVCCASE-meat_and_seafood-processed_and_value_added_meat",
@@ -2024,7 +3165,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_BOTTOM",
+        "Middle": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_MIDDLE",
+        "Eye-Level": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_EYE_LEVEL",
+        "Top": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_TOP"
+      }
     },
     {
       "id": "SVCCASE-meat_and_seafood-seafood",
@@ -2045,7 +3198,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "SVCCASE_meat_and_seafood_seafood_SHELF_BOTTOM",
+        "Middle": "SVCCASE_meat_and_seafood_seafood_SHELF_MIDDLE",
+        "Eye-Level": "SVCCASE_meat_and_seafood_seafood_SHELF_EYE_LEVEL",
+        "Top": "SVCCASE_meat_and_seafood_seafood_SHELF_TOP"
+      }
     },
     {
       "id": "SVCCASE-meat_and_seafood-specialty_sausage",
@@ -2066,7 +3231,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_BOTTOM",
+        "Middle": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_MIDDLE",
+        "Eye-Level": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_EYE_LEVEL",
+        "Top": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-paper_goods-bath_tissue",
@@ -2087,7 +3264,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_paper_goods_bath_tissue_SHELF_BOTTOM",
+        "Middle": "GOND_paper_goods_bath_tissue_SHELF_MIDDLE",
+        "Eye-Level": "GOND_paper_goods_bath_tissue_SHELF_EYE_LEVEL",
+        "Top": "GOND_paper_goods_bath_tissue_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-paper_goods-facial_tissue_and_tableware",
@@ -2108,7 +3297,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_BOTTOM",
+        "Middle": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_MIDDLE",
+        "Eye-Level": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_EYE_LEVEL",
+        "Top": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-paper_goods-paper_towels",
@@ -2129,7 +3330,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_paper_goods_paper_towels_SHELF_BOTTOM",
+        "Middle": "GOND_paper_goods_paper_towels_SHELF_MIDDLE",
+        "Eye-Level": "GOND_paper_goods_paper_towels_SHELF_EYE_LEVEL",
+        "Top": "GOND_paper_goods_paper_towels_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pet_care-cat_food",
@@ -2150,7 +3363,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pet_care_cat_food_SHELF_BOTTOM",
+        "Middle": "GOND_pet_care_cat_food_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pet_care_cat_food_SHELF_EYE_LEVEL",
+        "Top": "GOND_pet_care_cat_food_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pet_care-cat_litter",
@@ -2171,7 +3396,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pet_care_cat_litter_SHELF_BOTTOM",
+        "Middle": "GOND_pet_care_cat_litter_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pet_care_cat_litter_SHELF_EYE_LEVEL",
+        "Top": "GOND_pet_care_cat_litter_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pet_care-dog_food",
@@ -2192,7 +3429,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pet_care_dog_food_SHELF_BOTTOM",
+        "Middle": "GOND_pet_care_dog_food_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pet_care_dog_food_SHELF_EYE_LEVEL",
+        "Top": "GOND_pet_care_dog_food_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pet_care-pet_supplies",
@@ -2213,7 +3462,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pet_care_pet_supplies_SHELF_BOTTOM",
+        "Middle": "GOND_pet_care_pet_supplies_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pet_care_pet_supplies_SHELF_EYE_LEVEL",
+        "Top": "GOND_pet_care_pet_supplies_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pet_care-pet_treats",
@@ -2234,7 +3495,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pet_care_pet_treats_SHELF_BOTTOM",
+        "Middle": "GOND_pet_care_pet_treats_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pet_care_pet_treats_SHELF_EYE_LEVEL",
+        "Top": "GOND_pet_care_pet_treats_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pharmacy__otc-cold_and_allergy",
@@ -2255,7 +3528,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pharmacy__otc_cold_and_allergy_SHELF_BOTTOM",
+        "Middle": "GOND_pharmacy__otc_cold_and_allergy_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pharmacy__otc_cold_and_allergy_SHELF_EYE_LEVEL",
+        "Top": "GOND_pharmacy__otc_cold_and_allergy_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pharmacy__otc-diabetic_care",
@@ -2276,7 +3561,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pharmacy__otc_diabetic_care_SHELF_BOTTOM",
+        "Middle": "GOND_pharmacy__otc_diabetic_care_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pharmacy__otc_diabetic_care_SHELF_EYE_LEVEL",
+        "Top": "GOND_pharmacy__otc_diabetic_care_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pharmacy__otc-digestive_health",
@@ -2297,7 +3594,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pharmacy__otc_digestive_health_SHELF_BOTTOM",
+        "Middle": "GOND_pharmacy__otc_digestive_health_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pharmacy__otc_digestive_health_SHELF_EYE_LEVEL",
+        "Top": "GOND_pharmacy__otc_digestive_health_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pharmacy__otc-pain_relief",
@@ -2318,7 +3627,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pharmacy__otc_pain_relief_SHELF_BOTTOM",
+        "Middle": "GOND_pharmacy__otc_pain_relief_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pharmacy__otc_pain_relief_SHELF_EYE_LEVEL",
+        "Top": "GOND_pharmacy__otc_pain_relief_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pharmacy__otc-sleep_aids",
@@ -2339,7 +3660,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pharmacy__otc_sleep_aids_SHELF_BOTTOM",
+        "Middle": "GOND_pharmacy__otc_sleep_aids_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pharmacy__otc_sleep_aids_SHELF_EYE_LEVEL",
+        "Top": "GOND_pharmacy__otc_sleep_aids_SHELF_TOP"
+      }
     },
     {
       "id": "GOND-pharmacy__otc-vitamins_and_supplements",
@@ -2360,7 +3693,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_BOTTOM",
+        "Middle": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_MIDDLE",
+        "Eye-Level": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_EYE_LEVEL",
+        "Top": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_TOP"
+      }
     },
     {
       "id": "PRODT-produce-fresh_fruit",
@@ -2381,7 +3726,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "PRODT_produce_fresh_fruit_SHELF_BOTTOM",
+        "Middle": "PRODT_produce_fresh_fruit_SHELF_MIDDLE",
+        "Eye-Level": "PRODT_produce_fresh_fruit_SHELF_EYE_LEVEL",
+        "Top": "PRODT_produce_fresh_fruit_SHELF_TOP"
+      }
     },
     {
       "id": "PRODT-produce-fresh_herbs",
@@ -2402,7 +3759,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "PRODT_produce_fresh_herbs_SHELF_BOTTOM",
+        "Middle": "PRODT_produce_fresh_herbs_SHELF_MIDDLE",
+        "Eye-Level": "PRODT_produce_fresh_herbs_SHELF_EYE_LEVEL",
+        "Top": "PRODT_produce_fresh_herbs_SHELF_TOP"
+      }
     },
     {
       "id": "PRODT-produce-fresh_vegetables",
@@ -2423,7 +3792,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "PRODT_produce_fresh_vegetables_SHELF_BOTTOM",
+        "Middle": "PRODT_produce_fresh_vegetables_SHELF_MIDDLE",
+        "Eye-Level": "PRODT_produce_fresh_vegetables_SHELF_EYE_LEVEL",
+        "Top": "PRODT_produce_fresh_vegetables_SHELF_TOP"
+      }
     },
     {
       "id": "PRODT-produce-organic_produce",
@@ -2444,7 +3825,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "PRODT_produce_organic_produce_SHELF_BOTTOM",
+        "Middle": "PRODT_produce_organic_produce_SHELF_MIDDLE",
+        "Eye-Level": "PRODT_produce_organic_produce_SHELF_EYE_LEVEL",
+        "Top": "PRODT_produce_organic_produce_SHELF_TOP"
+      }
     },
     {
       "id": "RIC-produce-packaged_salads",
@@ -2465,7 +3858,19 @@
         "Eye-Level",
         "Top"
       ],
-      "geometry": null
+      "geometry": null,
+      "shelf_geometry": {
+        "Bottom": null,
+        "Middle": null,
+        "Eye-Level": null,
+        "Top": null
+      },
+      "shelf_sub_object_naming": {
+        "Bottom": "RIC_produce_packaged_salads_SHELF_BOTTOM",
+        "Middle": "RIC_produce_packaged_salads_SHELF_MIDDLE",
+        "Eye-Level": "RIC_produce_packaged_salads_SHELF_EYE_LEVEL",
+        "Top": "RIC_produce_packaged_salads_SHELF_TOP"
+      }
     }
   ],
   "impulse_secondary_fixtures": [
@@ -2910,11 +4315,24 @@
         "width_ft": 20.0
       },
       "geometry": null
+    },
+    {
+      "id": "CHECKOUT-ZONE-TOTAL",
+      "sketchup_object_name": "CHECKOUT_ZONE_TOTAL",
+      "space_type": "checkout",
+      "note": "Coarse placeholder for the whole front-end/checkout area as one block, for use before individual lanes are modeled. Superseded by CHECKOUT_LANE_01..08 + SELFCHECKOUT_BANK_01 once those are drawn.",
+      "geometry": null
     }
   ],
   "counts": {
     "primary_fixtures": 117,
     "impulse_secondary_fixture_instances": 19,
     "service_space_instances": 19
+  },
+  "store_footprint": {
+    "id": "STORE-FLOOR",
+    "sketchup_object_name": "STORE_FLOOR",
+    "note": "Overall store floor footprint/boundary (building envelope at ground level).",
+    "geometry": null
   }
 }
