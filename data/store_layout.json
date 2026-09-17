@@ -1,19 +1,18 @@
 {
   "meta": {
-    "purpose": "Initial hierarchical scaffold identifying every merchandising fixture and non-merchandising space to draw as a 3D block in SketchUp Free. Geometry fields are null and get filled in after the OBJ export is parsed.",
-    "units": "feet \u2014 set SketchUp's Model Info > Units to feet before drawing",
-    "coordinate_system": "Draw the entire store in ONE shared SketchUp file/scene, at true scale, with each block positioned at its actual intended location on the store floor plan (not loose/unpositioned boxes). Ground plane = red/green (X/Y) axes, blue (Z) = height, origin at one corner of the store footprint (e.g. front entrance corner).",
-    "naming_rule": "Name every group in SketchUp EXACTLY as its 'sketchup_object_name' value below (underscores, no spaces/punctuation) \u2014 that name is the ONLY channel of metadata that survives OBJ export, and it's how extracted geometry gets matched back to this JSON. Use Groups (not Components) to avoid shared-definition name collisions when copying similar fixtures.",
-    "drawing_rule": "Each object = one rectangular 3D block (a SketchUp group or component) representing the fixture's overall footprint and height. Do NOT draw individual shelves \u2014 vertical shelf bands (see 'shelf_bands') are computed later by evenly subdividing each block's height.",
+    "purpose": "Initial hierarchical scaffold identifying every merchandising fixture and non-merchandising space in the store. Geometry fields are null and get filled in after a diagram/model export is parsed.",
+    "units": "feet",
+    "coordinate_system": "Lay out the entire store in one shared file, at true scale, with each object positioned at its actual intended location on the store floor plan (not loose/unpositioned shapes). Use a consistent ground-plane origin (e.g. front entrance corner) across every tool/export used for this layout, so outputs from different tools stay aligned.",
+    "object_label_rule": "Every drawn object must be tagged with its 'object_label' value below, using whatever identifier mechanism the graphical editor provides for that purpose \u2014 a SketchUp group/component name, a SmartDraw shape's visible text label, or the equivalent in another tool. That value is the ONLY link between a diagram/model and this JSON: extraction matches on it (case/whitespace-normalized), independent of which editor or export format produced the file. An object_label with no match in this file is flagged, never guessed.",
+    "drawing_rule": "Each object = one rectangular block/shape representing the item's overall footprint (and height, for 3D tools). Don't model individual shelves separately \u2014 vertical shelf bands (see 'shelf_bands') are computed later by evenly subdividing a fixture's height, unless you deliberately choose to draw them explicitly (see 'shelf_sub_object_naming').",
+    "uniqueness_rule": "Nested/grouped objects are fine as long as every object at every level has a unique object_label \u2014 duplicate labels (e.g. from copying a shape/component without renaming each copy) break the link. In SketchUp specifically, use Groups rather than Components to avoid shared-definition name collisions.",
     "target_footprint_sqft": 45000,
     "format_class": "conventional supermarket (Ch. 1.1)",
-    "layout_notes": "Ch. 1.3: perimeter placement for produce/meat/deli/bakery/dairy (flagged via 'perimeter_department' below) with center-store grocery in the interior aisles. Ch. 1.4: produce near the entrance, dairy toward the back to pull shoppers through center aisles. Ch. 1.5: grid aisle layout is dominant for supermarkets. These are placement guidelines for where YOU position each block, not computed coordinates.",
-    "nesting_rule": "Nested groups are fine for extraction as long as every group at every level has a unique name \u2014 the earlier no-nesting guidance was really about avoiding duplicate names from copied components, not nesting itself. Shelf sub-objects use the pattern {fixture_sketchup_object_name}_SHELF_{BAND}, e.g. GOND_baby_care_baby_food_SHELF_BOTTOM."
+    "layout_notes": "Ch. 1.3: perimeter placement for produce/meat/deli/bakery/dairy (flagged via 'perimeter_department' below) with center-store grocery in the interior aisles. Ch. 1.4: produce near the entrance, dairy toward the back to pull shoppers through center aisles. Ch. 1.5: grid aisle layout is dominant for supermarkets. These are placement guidelines for where YOU position each object, not computed coordinates."
   },
   "primary_fixtures": [
     {
       "id": "GOND-baby_care-baby_food",
-      "sketchup_object_name": "GOND_baby_care_baby_food",
       "department": "Baby Care",
       "category": "Baby Food",
       "fixture_type": "Gondola Shelving",
@@ -42,11 +41,11 @@
         "Middle": "GOND_baby_care_baby_food_SHELF_MIDDLE",
         "Eye-Level": "GOND_baby_care_baby_food_SHELF_EYE_LEVEL",
         "Top": "GOND_baby_care_baby_food_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_baby_care_baby_food"
     },
     {
       "id": "GOND-baby_care-diapers",
-      "sketchup_object_name": "GOND_baby_care_diapers",
       "department": "Baby Care",
       "category": "Diapers",
       "fixture_type": "Gondola Shelving",
@@ -75,11 +74,11 @@
         "Middle": "GOND_baby_care_diapers_SHELF_MIDDLE",
         "Eye-Level": "GOND_baby_care_diapers_SHELF_EYE_LEVEL",
         "Top": "GOND_baby_care_diapers_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_baby_care_diapers"
     },
     {
       "id": "GOND-baby_care-formula",
-      "sketchup_object_name": "GOND_baby_care_formula",
       "department": "Baby Care",
       "category": "Formula",
       "fixture_type": "Gondola Shelving",
@@ -108,11 +107,11 @@
         "Middle": "GOND_baby_care_formula_SHELF_MIDDLE",
         "Eye-Level": "GOND_baby_care_formula_SHELF_EYE_LEVEL",
         "Top": "GOND_baby_care_formula_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_baby_care_formula"
     },
     {
       "id": "GOND-baby_care-wipes",
-      "sketchup_object_name": "GOND_baby_care_wipes",
       "department": "Baby Care",
       "category": "Wipes",
       "fixture_type": "Gondola Shelving",
@@ -141,11 +140,11 @@
         "Middle": "GOND_baby_care_wipes_SHELF_MIDDLE",
         "Eye-Level": "GOND_baby_care_wipes_SHELF_EYE_LEVEL",
         "Top": "GOND_baby_care_wipes_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_baby_care_wipes"
     },
     {
       "id": "BAKE-bakery-bread",
-      "sketchup_object_name": "BAKE_bakery_bread",
       "department": "Bakery",
       "category": "Bread",
       "fixture_type": "Bakery Case/Shelving",
@@ -174,11 +173,11 @@
         "Middle": "BAKE_bakery_bread_SHELF_MIDDLE",
         "Eye-Level": "BAKE_bakery_bread_SHELF_EYE_LEVEL",
         "Top": "BAKE_bakery_bread_SHELF_TOP"
-      }
+      },
+      "object_label": "BAKE_bakery_bread"
     },
     {
       "id": "BAKE-bakery-cakes_and_desserts",
-      "sketchup_object_name": "BAKE_bakery_cakes_and_desserts",
       "department": "Bakery",
       "category": "Cakes & Desserts",
       "fixture_type": "Bakery Case/Shelving",
@@ -207,11 +206,11 @@
         "Middle": "BAKE_bakery_cakes_and_desserts_SHELF_MIDDLE",
         "Eye-Level": "BAKE_bakery_cakes_and_desserts_SHELF_EYE_LEVEL",
         "Top": "BAKE_bakery_cakes_and_desserts_SHELF_TOP"
-      }
+      },
+      "object_label": "BAKE_bakery_cakes_and_desserts"
     },
     {
       "id": "BAKE-bakery-cookies_and_pastries",
-      "sketchup_object_name": "BAKE_bakery_cookies_and_pastries",
       "department": "Bakery",
       "category": "Cookies & Pastries",
       "fixture_type": "Bakery Case/Shelving",
@@ -240,11 +239,11 @@
         "Middle": "BAKE_bakery_cookies_and_pastries_SHELF_MIDDLE",
         "Eye-Level": "BAKE_bakery_cookies_and_pastries_SHELF_EYE_LEVEL",
         "Top": "BAKE_bakery_cookies_and_pastries_SHELF_TOP"
-      }
+      },
+      "object_label": "BAKE_bakery_cookies_and_pastries"
     },
     {
       "id": "BAKE-bakery-rolls_and_buns",
-      "sketchup_object_name": "BAKE_bakery_rolls_and_buns",
       "department": "Bakery",
       "category": "Rolls & Buns",
       "fixture_type": "Bakery Case/Shelving",
@@ -273,11 +272,11 @@
         "Middle": "BAKE_bakery_rolls_and_buns_SHELF_MIDDLE",
         "Eye-Level": "BAKE_bakery_rolls_and_buns_SHELF_EYE_LEVEL",
         "Top": "BAKE_bakery_rolls_and_buns_SHELF_TOP"
-      }
+      },
+      "object_label": "BAKE_bakery_rolls_and_buns"
     },
     {
       "id": "RIC-beer_and_wine-craft_and_import_beer",
-      "sketchup_object_name": "RIC_beer_and_wine_craft_and_import_beer",
       "department": "Beer & Wine",
       "category": "Craft & Import Beer",
       "fixture_type": "Reach-In Cooler",
@@ -306,11 +305,11 @@
         "Middle": "RIC_beer_and_wine_craft_and_import_beer_SHELF_MIDDLE",
         "Eye-Level": "RIC_beer_and_wine_craft_and_import_beer_SHELF_EYE_LEVEL",
         "Top": "RIC_beer_and_wine_craft_and_import_beer_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_beer_and_wine_craft_and_import_beer"
     },
     {
       "id": "RIC-beer_and_wine-domestic_beer",
-      "sketchup_object_name": "RIC_beer_and_wine_domestic_beer",
       "department": "Beer & Wine",
       "category": "Domestic Beer",
       "fixture_type": "Reach-In Cooler",
@@ -339,11 +338,11 @@
         "Middle": "RIC_beer_and_wine_domestic_beer_SHELF_MIDDLE",
         "Eye-Level": "RIC_beer_and_wine_domestic_beer_SHELF_EYE_LEVEL",
         "Top": "RIC_beer_and_wine_domestic_beer_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_beer_and_wine_domestic_beer"
     },
     {
       "id": "GOND-beer_and_wine-red_wine",
-      "sketchup_object_name": "GOND_beer_and_wine_red_wine",
       "department": "Beer & Wine",
       "category": "Red Wine",
       "fixture_type": "Gondola Shelving",
@@ -372,11 +371,11 @@
         "Middle": "GOND_beer_and_wine_red_wine_SHELF_MIDDLE",
         "Eye-Level": "GOND_beer_and_wine_red_wine_SHELF_EYE_LEVEL",
         "Top": "GOND_beer_and_wine_red_wine_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_beer_and_wine_red_wine"
     },
     {
       "id": "RIC-beer_and_wine-white_wine",
-      "sketchup_object_name": "RIC_beer_and_wine_white_wine",
       "department": "Beer & Wine",
       "category": "White Wine",
       "fixture_type": "Reach-In Cooler",
@@ -405,11 +404,11 @@
         "Middle": "RIC_beer_and_wine_white_wine_SHELF_MIDDLE",
         "Eye-Level": "RIC_beer_and_wine_white_wine_SHELF_EYE_LEVEL",
         "Top": "RIC_beer_and_wine_white_wine_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_beer_and_wine_white_wine"
     },
     {
       "id": "GOND-beverages-carbonated_soft_drinks",
-      "sketchup_object_name": "GOND_beverages_carbonated_soft_drinks",
       "department": "Beverages",
       "category": "Carbonated Soft Drinks",
       "fixture_type": "Gondola Shelving",
@@ -438,11 +437,11 @@
         "Middle": "GOND_beverages_carbonated_soft_drinks_SHELF_MIDDLE",
         "Eye-Level": "GOND_beverages_carbonated_soft_drinks_SHELF_EYE_LEVEL",
         "Top": "GOND_beverages_carbonated_soft_drinks_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_beverages_carbonated_soft_drinks"
     },
     {
       "id": "GOND-beverages-coffee_and_kombucha_drinks",
-      "sketchup_object_name": "GOND_beverages_coffee_and_kombucha_drinks",
       "department": "Beverages",
       "category": "Coffee & Kombucha Drinks",
       "fixture_type": "Gondola Shelving",
@@ -471,11 +470,11 @@
         "Middle": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_MIDDLE",
         "Eye-Level": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_EYE_LEVEL",
         "Top": "GOND_beverages_coffee_and_kombucha_drinks_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_beverages_coffee_and_kombucha_drinks"
     },
     {
       "id": "GOND-beverages-juice",
-      "sketchup_object_name": "GOND_beverages_juice",
       "department": "Beverages",
       "category": "Juice",
       "fixture_type": "Gondola Shelving",
@@ -504,11 +503,11 @@
         "Middle": "GOND_beverages_juice_SHELF_MIDDLE",
         "Eye-Level": "GOND_beverages_juice_SHELF_EYE_LEVEL",
         "Top": "GOND_beverages_juice_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_beverages_juice"
     },
     {
       "id": "GOND-beverages-sports_and_energy_drinks",
-      "sketchup_object_name": "GOND_beverages_sports_and_energy_drinks",
       "department": "Beverages",
       "category": "Sports & Energy Drinks",
       "fixture_type": "Gondola Shelving",
@@ -537,11 +536,11 @@
         "Middle": "GOND_beverages_sports_and_energy_drinks_SHELF_MIDDLE",
         "Eye-Level": "GOND_beverages_sports_and_energy_drinks_SHELF_EYE_LEVEL",
         "Top": "GOND_beverages_sports_and_energy_drinks_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_beverages_sports_and_energy_drinks"
     },
     {
       "id": "GOND-beverages-water",
-      "sketchup_object_name": "GOND_beverages_water",
       "department": "Beverages",
       "category": "Water",
       "fixture_type": "Gondola Shelving",
@@ -570,11 +569,11 @@
         "Middle": "GOND_beverages_water_SHELF_MIDDLE",
         "Eye-Level": "GOND_beverages_water_SHELF_EYE_LEVEL",
         "Top": "GOND_beverages_water_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_beverages_water"
     },
     {
       "id": "RIC-dairy_and_eggs-butter_and_margarine",
-      "sketchup_object_name": "RIC_dairy_and_eggs_butter_and_margarine",
       "department": "Dairy & Eggs",
       "category": "Butter & Margarine",
       "fixture_type": "Reach-In Cooler",
@@ -603,11 +602,11 @@
         "Middle": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_butter_and_margarine_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_butter_and_margarine"
     },
     {
       "id": "RIC-dairy_and_eggs-cheese",
-      "sketchup_object_name": "RIC_dairy_and_eggs_cheese",
       "department": "Dairy & Eggs",
       "category": "Cheese",
       "fixture_type": "Reach-In Cooler",
@@ -636,11 +635,11 @@
         "Middle": "RIC_dairy_and_eggs_cheese_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_cheese_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_cheese_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_cheese"
     },
     {
       "id": "RIC-dairy_and_eggs-eggs",
-      "sketchup_object_name": "RIC_dairy_and_eggs_eggs",
       "department": "Dairy & Eggs",
       "category": "Eggs",
       "fixture_type": "Reach-In Cooler",
@@ -669,11 +668,11 @@
         "Middle": "RIC_dairy_and_eggs_eggs_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_eggs_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_eggs_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_eggs"
     },
     {
       "id": "RIC-dairy_and_eggs-milk",
-      "sketchup_object_name": "RIC_dairy_and_eggs_milk",
       "department": "Dairy & Eggs",
       "category": "Milk",
       "fixture_type": "Reach-In Cooler",
@@ -702,11 +701,11 @@
         "Middle": "RIC_dairy_and_eggs_milk_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_milk_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_milk_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_milk"
     },
     {
       "id": "RIC-dairy_and_eggs-plant_based_dairy",
-      "sketchup_object_name": "RIC_dairy_and_eggs_plant_based_dairy",
       "department": "Dairy & Eggs",
       "category": "Plant-Based Dairy",
       "fixture_type": "Reach-In Cooler",
@@ -735,11 +734,11 @@
         "Middle": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_plant_based_dairy_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_plant_based_dairy"
     },
     {
       "id": "RIC-dairy_and_eggs-refrigerated_dough",
-      "sketchup_object_name": "RIC_dairy_and_eggs_refrigerated_dough",
       "department": "Dairy & Eggs",
       "category": "Refrigerated Dough",
       "fixture_type": "Reach-In Cooler",
@@ -768,11 +767,11 @@
         "Middle": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_refrigerated_dough_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_refrigerated_dough"
     },
     {
       "id": "RIC-dairy_and_eggs-refrigerated_juice",
-      "sketchup_object_name": "RIC_dairy_and_eggs_refrigerated_juice",
       "department": "Dairy & Eggs",
       "category": "Refrigerated Juice",
       "fixture_type": "Reach-In Cooler",
@@ -801,11 +800,11 @@
         "Middle": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_refrigerated_juice_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_refrigerated_juice"
     },
     {
       "id": "RIC-dairy_and_eggs-yogurt",
-      "sketchup_object_name": "RIC_dairy_and_eggs_yogurt",
       "department": "Dairy & Eggs",
       "category": "Yogurt",
       "fixture_type": "Reach-In Cooler",
@@ -834,11 +833,11 @@
         "Middle": "RIC_dairy_and_eggs_yogurt_SHELF_MIDDLE",
         "Eye-Level": "RIC_dairy_and_eggs_yogurt_SHELF_EYE_LEVEL",
         "Top": "RIC_dairy_and_eggs_yogurt_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_dairy_and_eggs_yogurt"
     },
     {
       "id": "DELI-deli-olives_and_antipasti",
-      "sketchup_object_name": "DELI_deli_olives_and_antipasti",
       "department": "Deli",
       "category": "Olives & Antipasti",
       "fixture_type": "Deli Case (Refrigerated)",
@@ -867,11 +866,11 @@
         "Middle": "DELI_deli_olives_and_antipasti_SHELF_MIDDLE",
         "Eye-Level": "DELI_deli_olives_and_antipasti_SHELF_EYE_LEVEL",
         "Top": "DELI_deli_olives_and_antipasti_SHELF_TOP"
-      }
+      },
+      "object_label": "DELI_deli_olives_and_antipasti"
     },
     {
       "id": "DELI-deli-prepared_foods",
-      "sketchup_object_name": "DELI_deli_prepared_foods",
       "department": "Deli",
       "category": "Prepared Foods",
       "fixture_type": "Deli Case (Refrigerated)",
@@ -900,11 +899,11 @@
         "Middle": "DELI_deli_prepared_foods_SHELF_MIDDLE",
         "Eye-Level": "DELI_deli_prepared_foods_SHELF_EYE_LEVEL",
         "Top": "DELI_deli_prepared_foods_SHELF_TOP"
-      }
+      },
+      "object_label": "DELI_deli_prepared_foods"
     },
     {
       "id": "DELI-deli-sliced_cheese",
-      "sketchup_object_name": "DELI_deli_sliced_cheese",
       "department": "Deli",
       "category": "Sliced Cheese",
       "fixture_type": "Deli Case (Refrigerated)",
@@ -933,11 +932,11 @@
         "Middle": "DELI_deli_sliced_cheese_SHELF_MIDDLE",
         "Eye-Level": "DELI_deli_sliced_cheese_SHELF_EYE_LEVEL",
         "Top": "DELI_deli_sliced_cheese_SHELF_TOP"
-      }
+      },
+      "object_label": "DELI_deli_sliced_cheese"
     },
     {
       "id": "DELI-deli-sliced_meats",
-      "sketchup_object_name": "DELI_deli_sliced_meats",
       "department": "Deli",
       "category": "Sliced Meats",
       "fixture_type": "Deli Case (Refrigerated)",
@@ -966,11 +965,11 @@
         "Middle": "DELI_deli_sliced_meats_SHELF_MIDDLE",
         "Eye-Level": "DELI_deli_sliced_meats_SHELF_EYE_LEVEL",
         "Top": "DELI_deli_sliced_meats_SHELF_TOP"
-      }
+      },
+      "object_label": "DELI_deli_sliced_meats"
     },
     {
       "id": "GOND-dry_grocery-baking_ingredients",
-      "sketchup_object_name": "GOND_dry_grocery_baking_ingredients",
       "department": "Dry Grocery",
       "category": "Baking Ingredients",
       "fixture_type": "Gondola Shelving",
@@ -999,11 +998,11 @@
         "Middle": "GOND_dry_grocery_baking_ingredients_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_baking_ingredients_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_baking_ingredients_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_baking_ingredients"
     },
     {
       "id": "GOND-dry_grocery-baking_mixes",
-      "sketchup_object_name": "GOND_dry_grocery_baking_mixes",
       "department": "Dry Grocery",
       "category": "Baking Mixes",
       "fixture_type": "Gondola Shelving",
@@ -1032,11 +1031,11 @@
         "Middle": "GOND_dry_grocery_baking_mixes_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_baking_mixes_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_baking_mixes_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_baking_mixes"
     },
     {
       "id": "GOND-dry_grocery-boxed_dinner_kits",
-      "sketchup_object_name": "GOND_dry_grocery_boxed_dinner_kits",
       "department": "Dry Grocery",
       "category": "Boxed Dinner Kits",
       "fixture_type": "Gondola Shelving",
@@ -1065,11 +1064,11 @@
         "Middle": "GOND_dry_grocery_boxed_dinner_kits_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_boxed_dinner_kits_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_boxed_dinner_kits_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_boxed_dinner_kits"
     },
     {
       "id": "GOND-dry_grocery-broth_and_stock",
-      "sketchup_object_name": "GOND_dry_grocery_broth_and_stock",
       "department": "Dry Grocery",
       "category": "Broth & Stock",
       "fixture_type": "Gondola Shelving",
@@ -1098,11 +1097,11 @@
         "Middle": "GOND_dry_grocery_broth_and_stock_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_broth_and_stock_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_broth_and_stock_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_broth_and_stock"
     },
     {
       "id": "GOND-dry_grocery-candy",
-      "sketchup_object_name": "GOND_dry_grocery_candy",
       "department": "Dry Grocery",
       "category": "Candy",
       "fixture_type": "Gondola Shelving",
@@ -1131,11 +1130,11 @@
         "Middle": "GOND_dry_grocery_candy_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_candy_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_candy_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_candy"
     },
     {
       "id": "GOND-dry_grocery-canned_beans_and_legumes",
-      "sketchup_object_name": "GOND_dry_grocery_canned_beans_and_legumes",
       "department": "Dry Grocery",
       "category": "Canned Beans & Legumes",
       "fixture_type": "Gondola Shelving",
@@ -1164,11 +1163,11 @@
         "Middle": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_canned_beans_and_legumes_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_canned_beans_and_legumes"
     },
     {
       "id": "GOND-dry_grocery-canned_fruit",
-      "sketchup_object_name": "GOND_dry_grocery_canned_fruit",
       "department": "Dry Grocery",
       "category": "Canned Fruit",
       "fixture_type": "Gondola Shelving",
@@ -1197,11 +1196,11 @@
         "Middle": "GOND_dry_grocery_canned_fruit_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_canned_fruit_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_canned_fruit_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_canned_fruit"
     },
     {
       "id": "GOND-dry_grocery-canned_meat_and_fish",
-      "sketchup_object_name": "GOND_dry_grocery_canned_meat_and_fish",
       "department": "Dry Grocery",
       "category": "Canned Meat & Fish",
       "fixture_type": "Gondola Shelving",
@@ -1230,11 +1229,11 @@
         "Middle": "GOND_dry_grocery_canned_meat_and_fish_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_canned_meat_and_fish_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_canned_meat_and_fish_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_canned_meat_and_fish"
     },
     {
       "id": "GOND-dry_grocery-canned_soup",
-      "sketchup_object_name": "GOND_dry_grocery_canned_soup",
       "department": "Dry Grocery",
       "category": "Canned Soup",
       "fixture_type": "Gondola Shelving",
@@ -1263,11 +1262,11 @@
         "Middle": "GOND_dry_grocery_canned_soup_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_canned_soup_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_canned_soup_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_canned_soup"
     },
     {
       "id": "GOND-dry_grocery-canned_vegetables",
-      "sketchup_object_name": "GOND_dry_grocery_canned_vegetables",
       "department": "Dry Grocery",
       "category": "Canned Vegetables",
       "fixture_type": "Gondola Shelving",
@@ -1296,11 +1295,11 @@
         "Middle": "GOND_dry_grocery_canned_vegetables_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_canned_vegetables_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_canned_vegetables_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_canned_vegetables"
     },
     {
       "id": "GOND-dry_grocery-coffee",
-      "sketchup_object_name": "GOND_dry_grocery_coffee",
       "department": "Dry Grocery",
       "category": "Coffee",
       "fixture_type": "Gondola Shelving",
@@ -1329,11 +1328,11 @@
         "Middle": "GOND_dry_grocery_coffee_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_coffee_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_coffee_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_coffee"
     },
     {
       "id": "GOND-dry_grocery-condiments",
-      "sketchup_object_name": "GOND_dry_grocery_condiments",
       "department": "Dry Grocery",
       "category": "Condiments",
       "fixture_type": "Gondola Shelving",
@@ -1362,11 +1361,11 @@
         "Middle": "GOND_dry_grocery_condiments_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_condiments_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_condiments_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_condiments"
     },
     {
       "id": "GOND-dry_grocery-cookies",
-      "sketchup_object_name": "GOND_dry_grocery_cookies",
       "department": "Dry Grocery",
       "category": "Cookies",
       "fixture_type": "Gondola Shelving",
@@ -1395,11 +1394,11 @@
         "Middle": "GOND_dry_grocery_cookies_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_cookies_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_cookies_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_cookies"
     },
     {
       "id": "GOND-dry_grocery-crackers",
-      "sketchup_object_name": "GOND_dry_grocery_crackers",
       "department": "Dry Grocery",
       "category": "Crackers",
       "fixture_type": "Gondola Shelving",
@@ -1428,11 +1427,11 @@
         "Middle": "GOND_dry_grocery_crackers_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_crackers_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_crackers_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_crackers"
     },
     {
       "id": "GOND-dry_grocery-granola_and_breakfast_bars",
-      "sketchup_object_name": "GOND_dry_grocery_granola_and_breakfast_bars",
       "department": "Dry Grocery",
       "category": "Granola & Breakfast Bars",
       "fixture_type": "Gondola Shelving",
@@ -1461,11 +1460,11 @@
         "Middle": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_granola_and_breakfast_bars_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_granola_and_breakfast_bars"
     },
     {
       "id": "GOND-dry_grocery-gum_and_mints",
-      "sketchup_object_name": "GOND_dry_grocery_gum_and_mints",
       "department": "Dry Grocery",
       "category": "Gum & Mints",
       "fixture_type": "Gondola Shelving",
@@ -1494,11 +1493,11 @@
         "Middle": "GOND_dry_grocery_gum_and_mints_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_gum_and_mints_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_gum_and_mints_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_gum_and_mints"
     },
     {
       "id": "GOND-dry_grocery-hot_cereal",
-      "sketchup_object_name": "GOND_dry_grocery_hot_cereal",
       "department": "Dry Grocery",
       "category": "Hot Cereal",
       "fixture_type": "Gondola Shelving",
@@ -1527,11 +1526,11 @@
         "Middle": "GOND_dry_grocery_hot_cereal_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_hot_cereal_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_hot_cereal_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_hot_cereal"
     },
     {
       "id": "GOND-dry_grocery-international_foods",
-      "sketchup_object_name": "GOND_dry_grocery_international_foods",
       "department": "Dry Grocery",
       "category": "International Foods",
       "fixture_type": "Gondola Shelving",
@@ -1560,11 +1559,11 @@
         "Middle": "GOND_dry_grocery_international_foods_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_international_foods_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_international_foods_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_international_foods"
     },
     {
       "id": "GOND-dry_grocery-nuts_and_trail_mix",
-      "sketchup_object_name": "GOND_dry_grocery_nuts_and_trail_mix",
       "department": "Dry Grocery",
       "category": "Nuts & Trail Mix",
       "fixture_type": "Gondola Shelving",
@@ -1593,11 +1592,11 @@
         "Middle": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_nuts_and_trail_mix_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_nuts_and_trail_mix"
     },
     {
       "id": "GOND-dry_grocery-oils_and_vinegar",
-      "sketchup_object_name": "GOND_dry_grocery_oils_and_vinegar",
       "department": "Dry Grocery",
       "category": "Oils & Vinegar",
       "fixture_type": "Gondola Shelving",
@@ -1626,11 +1625,11 @@
         "Middle": "GOND_dry_grocery_oils_and_vinegar_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_oils_and_vinegar_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_oils_and_vinegar_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_oils_and_vinegar"
     },
     {
       "id": "GOND-dry_grocery-pancake_mix_and_syrup",
-      "sketchup_object_name": "GOND_dry_grocery_pancake_mix_and_syrup",
       "department": "Dry Grocery",
       "category": "Pancake Mix & Syrup",
       "fixture_type": "Gondola Shelving",
@@ -1659,11 +1658,11 @@
         "Middle": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_pancake_mix_and_syrup_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_pancake_mix_and_syrup"
     },
     {
       "id": "GOND-dry_grocery-pasta",
-      "sketchup_object_name": "GOND_dry_grocery_pasta",
       "department": "Dry Grocery",
       "category": "Pasta",
       "fixture_type": "Gondola Shelving",
@@ -1692,11 +1691,11 @@
         "Middle": "GOND_dry_grocery_pasta_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_pasta_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_pasta_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_pasta"
     },
     {
       "id": "GOND-dry_grocery-pasta_sauce",
-      "sketchup_object_name": "GOND_dry_grocery_pasta_sauce",
       "department": "Dry Grocery",
       "category": "Pasta Sauce",
       "fixture_type": "Gondola Shelving",
@@ -1725,11 +1724,11 @@
         "Middle": "GOND_dry_grocery_pasta_sauce_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_pasta_sauce_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_pasta_sauce_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_pasta_sauce"
     },
     {
       "id": "GOND-dry_grocery-peanut_butter_and_jelly",
-      "sketchup_object_name": "GOND_dry_grocery_peanut_butter_and_jelly",
       "department": "Dry Grocery",
       "category": "Peanut Butter & Jelly",
       "fixture_type": "Gondola Shelving",
@@ -1758,11 +1757,11 @@
         "Middle": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_peanut_butter_and_jelly_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_peanut_butter_and_jelly"
     },
     {
       "id": "GOND-dry_grocery-ready_to_eat_cereal",
-      "sketchup_object_name": "GOND_dry_grocery_ready_to_eat_cereal",
       "department": "Dry Grocery",
       "category": "Ready-to-Eat Cereal",
       "fixture_type": "Gondola Shelving",
@@ -1791,11 +1790,11 @@
         "Middle": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_ready_to_eat_cereal_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_ready_to_eat_cereal"
     },
     {
       "id": "GOND-dry_grocery-rice_and_grains",
-      "sketchup_object_name": "GOND_dry_grocery_rice_and_grains",
       "department": "Dry Grocery",
       "category": "Rice & Grains",
       "fixture_type": "Gondola Shelving",
@@ -1824,11 +1823,11 @@
         "Middle": "GOND_dry_grocery_rice_and_grains_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_rice_and_grains_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_rice_and_grains_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_rice_and_grains"
     },
     {
       "id": "GOND-dry_grocery-salad_dressing",
-      "sketchup_object_name": "GOND_dry_grocery_salad_dressing",
       "department": "Dry Grocery",
       "category": "Salad Dressing",
       "fixture_type": "Gondola Shelving",
@@ -1857,11 +1856,11 @@
         "Middle": "GOND_dry_grocery_salad_dressing_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_salad_dressing_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_salad_dressing_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_salad_dressing"
     },
     {
       "id": "GOND-dry_grocery-snack_chips",
-      "sketchup_object_name": "GOND_dry_grocery_snack_chips",
       "department": "Dry Grocery",
       "category": "Snack Chips",
       "fixture_type": "Gondola Shelving",
@@ -1890,11 +1889,11 @@
         "Middle": "GOND_dry_grocery_snack_chips_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_snack_chips_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_snack_chips_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_snack_chips"
     },
     {
       "id": "GOND-dry_grocery-spices_and_seasonings",
-      "sketchup_object_name": "GOND_dry_grocery_spices_and_seasonings",
       "department": "Dry Grocery",
       "category": "Spices & Seasonings",
       "fixture_type": "Gondola Shelving",
@@ -1923,11 +1922,11 @@
         "Middle": "GOND_dry_grocery_spices_and_seasonings_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_spices_and_seasonings_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_spices_and_seasonings_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_spices_and_seasonings"
     },
     {
       "id": "GOND-dry_grocery-tea",
-      "sketchup_object_name": "GOND_dry_grocery_tea",
       "department": "Dry Grocery",
       "category": "Tea",
       "fixture_type": "Gondola Shelving",
@@ -1956,11 +1955,11 @@
         "Middle": "GOND_dry_grocery_tea_SHELF_MIDDLE",
         "Eye-Level": "GOND_dry_grocery_tea_SHELF_EYE_LEVEL",
         "Top": "GOND_dry_grocery_tea_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_dry_grocery_tea"
     },
     {
       "id": "FLORC-floral-cut_flowers",
-      "sketchup_object_name": "FLORC_floral_cut_flowers",
       "department": "Floral",
       "category": "Cut Flowers",
       "fixture_type": "Floral Cooler",
@@ -1989,11 +1988,11 @@
         "Middle": "FLORC_floral_cut_flowers_SHELF_MIDDLE",
         "Eye-Level": "FLORC_floral_cut_flowers_SHELF_EYE_LEVEL",
         "Top": "FLORC_floral_cut_flowers_SHELF_TOP"
-      }
+      },
+      "object_label": "FLORC_floral_cut_flowers"
     },
     {
       "id": "FDISP-floral-potted_plants",
-      "sketchup_object_name": "FDISP_floral_potted_plants",
       "department": "Floral",
       "category": "Potted Plants",
       "fixture_type": "Floor Display/Fixture",
@@ -2022,11 +2021,11 @@
         "Middle": "FDISP_floral_potted_plants_SHELF_MIDDLE",
         "Eye-Level": "FDISP_floral_potted_plants_SHELF_EYE_LEVEL",
         "Top": "FDISP_floral_potted_plants_SHELF_TOP"
-      }
+      },
+      "object_label": "FDISP_floral_potted_plants"
     },
     {
       "id": "RIF-frozen_foods-frozen_appetizers",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_appetizers",
       "department": "Frozen Foods",
       "category": "Frozen Appetizers",
       "fixture_type": "Reach-In Freezer",
@@ -2055,11 +2054,11 @@
         "Middle": "RIF_frozen_foods_frozen_appetizers_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_appetizers_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_appetizers_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_appetizers"
     },
     {
       "id": "RIF-frozen_foods-frozen_bread_and_dough",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_bread_and_dough",
       "department": "Frozen Foods",
       "category": "Frozen Bread & Dough",
       "fixture_type": "Reach-In Freezer",
@@ -2088,11 +2087,11 @@
         "Middle": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_bread_and_dough_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_bread_and_dough"
     },
     {
       "id": "RIF-frozen_foods-frozen_breakfast",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_breakfast",
       "department": "Frozen Foods",
       "category": "Frozen Breakfast",
       "fixture_type": "Reach-In Freezer",
@@ -2121,11 +2120,11 @@
         "Middle": "RIF_frozen_foods_frozen_breakfast_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_breakfast_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_breakfast_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_breakfast"
     },
     {
       "id": "RIF-frozen_foods-frozen_entrees_and_meals",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_entrees_and_meals",
       "department": "Frozen Foods",
       "category": "Frozen Entrees & Meals",
       "fixture_type": "Reach-In Freezer",
@@ -2154,11 +2153,11 @@
         "Middle": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_entrees_and_meals_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_entrees_and_meals"
     },
     {
       "id": "RIF-frozen_foods-frozen_fruit",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_fruit",
       "department": "Frozen Foods",
       "category": "Frozen Fruit",
       "fixture_type": "Reach-In Freezer",
@@ -2187,11 +2186,11 @@
         "Middle": "RIF_frozen_foods_frozen_fruit_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_fruit_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_fruit_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_fruit"
     },
     {
       "id": "RIF-frozen_foods-frozen_pizza",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_pizza",
       "department": "Frozen Foods",
       "category": "Frozen Pizza",
       "fixture_type": "Reach-In Freezer",
@@ -2220,11 +2219,11 @@
         "Middle": "RIF_frozen_foods_frozen_pizza_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_pizza_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_pizza_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_pizza"
     },
     {
       "id": "RIF-frozen_foods-frozen_potatoes",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_potatoes",
       "department": "Frozen Foods",
       "category": "Frozen Potatoes",
       "fixture_type": "Reach-In Freezer",
@@ -2253,11 +2252,11 @@
         "Middle": "RIF_frozen_foods_frozen_potatoes_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_potatoes_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_potatoes_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_potatoes"
     },
     {
       "id": "RIF-frozen_foods-frozen_seafood",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_seafood",
       "department": "Frozen Foods",
       "category": "Frozen Seafood",
       "fixture_type": "Reach-In Freezer",
@@ -2286,11 +2285,11 @@
         "Middle": "RIF_frozen_foods_frozen_seafood_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_seafood_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_seafood_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_seafood"
     },
     {
       "id": "RIF-frozen_foods-frozen_vegetables",
-      "sketchup_object_name": "RIF_frozen_foods_frozen_vegetables",
       "department": "Frozen Foods",
       "category": "Frozen Vegetables",
       "fixture_type": "Reach-In Freezer",
@@ -2319,11 +2318,11 @@
         "Middle": "RIF_frozen_foods_frozen_vegetables_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_frozen_vegetables_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_frozen_vegetables_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_frozen_vegetables"
     },
     {
       "id": "RIF-frozen_foods-ice_cream_and_novelties",
-      "sketchup_object_name": "RIF_frozen_foods_ice_cream_and_novelties",
       "department": "Frozen Foods",
       "category": "Ice Cream & Novelties",
       "fixture_type": "Reach-In Freezer",
@@ -2352,11 +2351,11 @@
         "Middle": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_MIDDLE",
         "Eye-Level": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_EYE_LEVEL",
         "Top": "RIF_frozen_foods_ice_cream_and_novelties_SHELF_TOP"
-      }
+      },
+      "object_label": "RIF_frozen_foods_ice_cream_and_novelties"
     },
     {
       "id": "GOND-general_merchandise-automotive",
-      "sketchup_object_name": "GOND_general_merchandise_automotive",
       "department": "General Merchandise",
       "category": "Automotive",
       "fixture_type": "Gondola Shelving",
@@ -2385,11 +2384,11 @@
         "Middle": "GOND_general_merchandise_automotive_SHELF_MIDDLE",
         "Eye-Level": "GOND_general_merchandise_automotive_SHELF_EYE_LEVEL",
         "Top": "GOND_general_merchandise_automotive_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_general_merchandise_automotive"
     },
     {
       "id": "GOND-general_merchandise-batteries_and_electronics",
-      "sketchup_object_name": "GOND_general_merchandise_batteries_and_electronics",
       "department": "General Merchandise",
       "category": "Batteries & Electronics",
       "fixture_type": "Gondola Shelving",
@@ -2418,11 +2417,11 @@
         "Middle": "GOND_general_merchandise_batteries_and_electronics_SHELF_MIDDLE",
         "Eye-Level": "GOND_general_merchandise_batteries_and_electronics_SHELF_EYE_LEVEL",
         "Top": "GOND_general_merchandise_batteries_and_electronics_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_general_merchandise_batteries_and_electronics"
     },
     {
       "id": "GOND-general_merchandise-greeting_cards_and_party",
-      "sketchup_object_name": "GOND_general_merchandise_greeting_cards_and_party",
       "department": "General Merchandise",
       "category": "Greeting Cards & Party",
       "fixture_type": "Gondola Shelving",
@@ -2451,11 +2450,11 @@
         "Middle": "GOND_general_merchandise_greeting_cards_and_party_SHELF_MIDDLE",
         "Eye-Level": "GOND_general_merchandise_greeting_cards_and_party_SHELF_EYE_LEVEL",
         "Top": "GOND_general_merchandise_greeting_cards_and_party_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_general_merchandise_greeting_cards_and_party"
     },
     {
       "id": "GOND-general_merchandise-kitchenware_and_storage",
-      "sketchup_object_name": "GOND_general_merchandise_kitchenware_and_storage",
       "department": "General Merchandise",
       "category": "Kitchenware & Storage",
       "fixture_type": "Gondola Shelving",
@@ -2484,11 +2483,11 @@
         "Middle": "GOND_general_merchandise_kitchenware_and_storage_SHELF_MIDDLE",
         "Eye-Level": "GOND_general_merchandise_kitchenware_and_storage_SHELF_EYE_LEVEL",
         "Top": "GOND_general_merchandise_kitchenware_and_storage_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_general_merchandise_kitchenware_and_storage"
     },
     {
       "id": "GOND-general_merchandise-office_and_school",
-      "sketchup_object_name": "GOND_general_merchandise_office_and_school",
       "department": "General Merchandise",
       "category": "Office & School",
       "fixture_type": "Gondola Shelving",
@@ -2517,11 +2516,11 @@
         "Middle": "GOND_general_merchandise_office_and_school_SHELF_MIDDLE",
         "Eye-Level": "GOND_general_merchandise_office_and_school_SHELF_EYE_LEVEL",
         "Top": "GOND_general_merchandise_office_and_school_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_general_merchandise_office_and_school"
     },
     {
       "id": "GOND-general_merchandise-seasonal",
-      "sketchup_object_name": "GOND_general_merchandise_seasonal",
       "department": "General Merchandise",
       "category": "Seasonal",
       "fixture_type": "Gondola Shelving",
@@ -2550,11 +2549,11 @@
         "Middle": "GOND_general_merchandise_seasonal_SHELF_MIDDLE",
         "Eye-Level": "GOND_general_merchandise_seasonal_SHELF_EYE_LEVEL",
         "Top": "GOND_general_merchandise_seasonal_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_general_merchandise_seasonal"
     },
     {
       "id": "GOND-health_and_beauty_care-deodorant",
-      "sketchup_object_name": "GOND_health_and_beauty_care_deodorant",
       "department": "Health & Beauty Care",
       "category": "Deodorant",
       "fixture_type": "Gondola Shelving",
@@ -2583,11 +2582,11 @@
         "Middle": "GOND_health_and_beauty_care_deodorant_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_deodorant_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_deodorant_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_deodorant"
     },
     {
       "id": "GOND-health_and_beauty_care-feminine_care",
-      "sketchup_object_name": "GOND_health_and_beauty_care_feminine_care",
       "department": "Health & Beauty Care",
       "category": "Feminine Care",
       "fixture_type": "Gondola Shelving",
@@ -2616,11 +2615,11 @@
         "Middle": "GOND_health_and_beauty_care_feminine_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_feminine_care_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_feminine_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_feminine_care"
     },
     {
       "id": "GOND-health_and_beauty_care-first_aid",
-      "sketchup_object_name": "GOND_health_and_beauty_care_first_aid",
       "department": "Health & Beauty Care",
       "category": "First Aid",
       "fixture_type": "Gondola Shelving",
@@ -2649,11 +2648,11 @@
         "Middle": "GOND_health_and_beauty_care_first_aid_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_first_aid_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_first_aid_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_first_aid"
     },
     {
       "id": "GOND-health_and_beauty_care-hair_care",
-      "sketchup_object_name": "GOND_health_and_beauty_care_hair_care",
       "department": "Health & Beauty Care",
       "category": "Hair Care",
       "fixture_type": "Gondola Shelving",
@@ -2682,11 +2681,11 @@
         "Middle": "GOND_health_and_beauty_care_hair_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_hair_care_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_hair_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_hair_care"
     },
     {
       "id": "GOND-health_and_beauty_care-oral_care",
-      "sketchup_object_name": "GOND_health_and_beauty_care_oral_care",
       "department": "Health & Beauty Care",
       "category": "Oral Care",
       "fixture_type": "Gondola Shelving",
@@ -2715,11 +2714,11 @@
         "Middle": "GOND_health_and_beauty_care_oral_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_oral_care_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_oral_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_oral_care"
     },
     {
       "id": "GOND-health_and_beauty_care-shaving",
-      "sketchup_object_name": "GOND_health_and_beauty_care_shaving",
       "department": "Health & Beauty Care",
       "category": "Shaving",
       "fixture_type": "Gondola Shelving",
@@ -2748,11 +2747,11 @@
         "Middle": "GOND_health_and_beauty_care_shaving_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_shaving_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_shaving_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_shaving"
     },
     {
       "id": "GOND-health_and_beauty_care-skin_care",
-      "sketchup_object_name": "GOND_health_and_beauty_care_skin_care",
       "department": "Health & Beauty Care",
       "category": "Skin Care",
       "fixture_type": "Gondola Shelving",
@@ -2781,11 +2780,11 @@
         "Middle": "GOND_health_and_beauty_care_skin_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_skin_care_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_skin_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_skin_care"
     },
     {
       "id": "GOND-health_and_beauty_care-vision_and_hearing",
-      "sketchup_object_name": "GOND_health_and_beauty_care_vision_and_hearing",
       "department": "Health & Beauty Care",
       "category": "Vision & Hearing",
       "fixture_type": "Gondola Shelving",
@@ -2814,11 +2813,11 @@
         "Middle": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_MIDDLE",
         "Eye-Level": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_EYE_LEVEL",
         "Top": "GOND_health_and_beauty_care_vision_and_hearing_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_health_and_beauty_care_vision_and_hearing"
     },
     {
       "id": "GOND-household_and_cleaning-air_care",
-      "sketchup_object_name": "GOND_household_and_cleaning_air_care",
       "department": "Household & Cleaning",
       "category": "Air Care",
       "fixture_type": "Gondola Shelving",
@@ -2847,11 +2846,11 @@
         "Middle": "GOND_household_and_cleaning_air_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_air_care_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_air_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_air_care"
     },
     {
       "id": "GOND-household_and_cleaning-bathroom_cleaners",
-      "sketchup_object_name": "GOND_household_and_cleaning_bathroom_cleaners",
       "department": "Household & Cleaning",
       "category": "Bathroom Cleaners",
       "fixture_type": "Gondola Shelving",
@@ -2880,11 +2879,11 @@
         "Middle": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_bathroom_cleaners_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_bathroom_cleaners"
     },
     {
       "id": "GOND-household_and_cleaning-dish_care",
-      "sketchup_object_name": "GOND_household_and_cleaning_dish_care",
       "department": "Household & Cleaning",
       "category": "Dish Care",
       "fixture_type": "Gondola Shelving",
@@ -2913,11 +2912,11 @@
         "Middle": "GOND_household_and_cleaning_dish_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_dish_care_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_dish_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_dish_care"
     },
     {
       "id": "GOND-household_and_cleaning-laundry_care",
-      "sketchup_object_name": "GOND_household_and_cleaning_laundry_care",
       "department": "Household & Cleaning",
       "category": "Laundry Care",
       "fixture_type": "Gondola Shelving",
@@ -2946,11 +2945,11 @@
         "Middle": "GOND_household_and_cleaning_laundry_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_laundry_care_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_laundry_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_laundry_care"
     },
     {
       "id": "GOND-household_and_cleaning-pest_control",
-      "sketchup_object_name": "GOND_household_and_cleaning_pest_control",
       "department": "Household & Cleaning",
       "category": "Pest Control",
       "fixture_type": "Gondola Shelving",
@@ -2979,11 +2978,11 @@
         "Middle": "GOND_household_and_cleaning_pest_control_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_pest_control_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_pest_control_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_pest_control"
     },
     {
       "id": "GOND-household_and_cleaning-surface_cleaners",
-      "sketchup_object_name": "GOND_household_and_cleaning_surface_cleaners",
       "department": "Household & Cleaning",
       "category": "Surface Cleaners",
       "fixture_type": "Gondola Shelving",
@@ -3012,11 +3011,11 @@
         "Middle": "GOND_household_and_cleaning_surface_cleaners_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_surface_cleaners_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_surface_cleaners_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_surface_cleaners"
     },
     {
       "id": "GOND-household_and_cleaning-trash_bags",
-      "sketchup_object_name": "GOND_household_and_cleaning_trash_bags",
       "department": "Household & Cleaning",
       "category": "Trash Bags",
       "fixture_type": "Gondola Shelving",
@@ -3045,11 +3044,11 @@
         "Middle": "GOND_household_and_cleaning_trash_bags_SHELF_MIDDLE",
         "Eye-Level": "GOND_household_and_cleaning_trash_bags_SHELF_EYE_LEVEL",
         "Top": "GOND_household_and_cleaning_trash_bags_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_household_and_cleaning_trash_bags"
     },
     {
       "id": "SVCCASE-meat_and_seafood-beef",
-      "sketchup_object_name": "SVCCASE_meat_and_seafood_beef",
       "department": "Meat & Seafood",
       "category": "Beef",
       "fixture_type": "Service/Self-Service Refrigerated Case",
@@ -3078,11 +3077,11 @@
         "Middle": "SVCCASE_meat_and_seafood_beef_SHELF_MIDDLE",
         "Eye-Level": "SVCCASE_meat_and_seafood_beef_SHELF_EYE_LEVEL",
         "Top": "SVCCASE_meat_and_seafood_beef_SHELF_TOP"
-      }
+      },
+      "object_label": "SVCCASE_meat_and_seafood_beef"
     },
     {
       "id": "SVCCASE-meat_and_seafood-pork",
-      "sketchup_object_name": "SVCCASE_meat_and_seafood_pork",
       "department": "Meat & Seafood",
       "category": "Pork",
       "fixture_type": "Service/Self-Service Refrigerated Case",
@@ -3111,11 +3110,11 @@
         "Middle": "SVCCASE_meat_and_seafood_pork_SHELF_MIDDLE",
         "Eye-Level": "SVCCASE_meat_and_seafood_pork_SHELF_EYE_LEVEL",
         "Top": "SVCCASE_meat_and_seafood_pork_SHELF_TOP"
-      }
+      },
+      "object_label": "SVCCASE_meat_and_seafood_pork"
     },
     {
       "id": "SVCCASE-meat_and_seafood-poultry",
-      "sketchup_object_name": "SVCCASE_meat_and_seafood_poultry",
       "department": "Meat & Seafood",
       "category": "Poultry",
       "fixture_type": "Service/Self-Service Refrigerated Case",
@@ -3144,11 +3143,11 @@
         "Middle": "SVCCASE_meat_and_seafood_poultry_SHELF_MIDDLE",
         "Eye-Level": "SVCCASE_meat_and_seafood_poultry_SHELF_EYE_LEVEL",
         "Top": "SVCCASE_meat_and_seafood_poultry_SHELF_TOP"
-      }
+      },
+      "object_label": "SVCCASE_meat_and_seafood_poultry"
     },
     {
       "id": "SVCCASE-meat_and_seafood-processed_and_value_added_meat",
-      "sketchup_object_name": "SVCCASE_meat_and_seafood_processed_and_value_added_meat",
       "department": "Meat & Seafood",
       "category": "Processed & Value-Added Meat",
       "fixture_type": "Service/Self-Service Refrigerated Case",
@@ -3177,11 +3176,11 @@
         "Middle": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_MIDDLE",
         "Eye-Level": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_EYE_LEVEL",
         "Top": "SVCCASE_meat_and_seafood_processed_and_value_added_meat_SHELF_TOP"
-      }
+      },
+      "object_label": "SVCCASE_meat_and_seafood_processed_and_value_added_meat"
     },
     {
       "id": "SVCCASE-meat_and_seafood-seafood",
-      "sketchup_object_name": "SVCCASE_meat_and_seafood_seafood",
       "department": "Meat & Seafood",
       "category": "Seafood",
       "fixture_type": "Service/Self-Service Refrigerated Case",
@@ -3210,11 +3209,11 @@
         "Middle": "SVCCASE_meat_and_seafood_seafood_SHELF_MIDDLE",
         "Eye-Level": "SVCCASE_meat_and_seafood_seafood_SHELF_EYE_LEVEL",
         "Top": "SVCCASE_meat_and_seafood_seafood_SHELF_TOP"
-      }
+      },
+      "object_label": "SVCCASE_meat_and_seafood_seafood"
     },
     {
       "id": "SVCCASE-meat_and_seafood-specialty_sausage",
-      "sketchup_object_name": "SVCCASE_meat_and_seafood_specialty_sausage",
       "department": "Meat & Seafood",
       "category": "Specialty Sausage",
       "fixture_type": "Service/Self-Service Refrigerated Case",
@@ -3243,11 +3242,11 @@
         "Middle": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_MIDDLE",
         "Eye-Level": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_EYE_LEVEL",
         "Top": "SVCCASE_meat_and_seafood_specialty_sausage_SHELF_TOP"
-      }
+      },
+      "object_label": "SVCCASE_meat_and_seafood_specialty_sausage"
     },
     {
       "id": "GOND-paper_goods-bath_tissue",
-      "sketchup_object_name": "GOND_paper_goods_bath_tissue",
       "department": "Paper Goods",
       "category": "Bath Tissue",
       "fixture_type": "Gondola Shelving",
@@ -3276,11 +3275,11 @@
         "Middle": "GOND_paper_goods_bath_tissue_SHELF_MIDDLE",
         "Eye-Level": "GOND_paper_goods_bath_tissue_SHELF_EYE_LEVEL",
         "Top": "GOND_paper_goods_bath_tissue_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_paper_goods_bath_tissue"
     },
     {
       "id": "GOND-paper_goods-facial_tissue_and_tableware",
-      "sketchup_object_name": "GOND_paper_goods_facial_tissue_and_tableware",
       "department": "Paper Goods",
       "category": "Facial Tissue & Tableware",
       "fixture_type": "Gondola Shelving",
@@ -3309,11 +3308,11 @@
         "Middle": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_MIDDLE",
         "Eye-Level": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_EYE_LEVEL",
         "Top": "GOND_paper_goods_facial_tissue_and_tableware_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_paper_goods_facial_tissue_and_tableware"
     },
     {
       "id": "GOND-paper_goods-paper_towels",
-      "sketchup_object_name": "GOND_paper_goods_paper_towels",
       "department": "Paper Goods",
       "category": "Paper Towels",
       "fixture_type": "Gondola Shelving",
@@ -3342,11 +3341,11 @@
         "Middle": "GOND_paper_goods_paper_towels_SHELF_MIDDLE",
         "Eye-Level": "GOND_paper_goods_paper_towels_SHELF_EYE_LEVEL",
         "Top": "GOND_paper_goods_paper_towels_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_paper_goods_paper_towels"
     },
     {
       "id": "GOND-pet_care-cat_food",
-      "sketchup_object_name": "GOND_pet_care_cat_food",
       "department": "Pet Care",
       "category": "Cat Food",
       "fixture_type": "Gondola Shelving",
@@ -3375,11 +3374,11 @@
         "Middle": "GOND_pet_care_cat_food_SHELF_MIDDLE",
         "Eye-Level": "GOND_pet_care_cat_food_SHELF_EYE_LEVEL",
         "Top": "GOND_pet_care_cat_food_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pet_care_cat_food"
     },
     {
       "id": "GOND-pet_care-cat_litter",
-      "sketchup_object_name": "GOND_pet_care_cat_litter",
       "department": "Pet Care",
       "category": "Cat Litter",
       "fixture_type": "Gondola Shelving",
@@ -3408,11 +3407,11 @@
         "Middle": "GOND_pet_care_cat_litter_SHELF_MIDDLE",
         "Eye-Level": "GOND_pet_care_cat_litter_SHELF_EYE_LEVEL",
         "Top": "GOND_pet_care_cat_litter_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pet_care_cat_litter"
     },
     {
       "id": "GOND-pet_care-dog_food",
-      "sketchup_object_name": "GOND_pet_care_dog_food",
       "department": "Pet Care",
       "category": "Dog Food",
       "fixture_type": "Gondola Shelving",
@@ -3441,11 +3440,11 @@
         "Middle": "GOND_pet_care_dog_food_SHELF_MIDDLE",
         "Eye-Level": "GOND_pet_care_dog_food_SHELF_EYE_LEVEL",
         "Top": "GOND_pet_care_dog_food_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pet_care_dog_food"
     },
     {
       "id": "GOND-pet_care-pet_supplies",
-      "sketchup_object_name": "GOND_pet_care_pet_supplies",
       "department": "Pet Care",
       "category": "Pet Supplies",
       "fixture_type": "Gondola Shelving",
@@ -3474,11 +3473,11 @@
         "Middle": "GOND_pet_care_pet_supplies_SHELF_MIDDLE",
         "Eye-Level": "GOND_pet_care_pet_supplies_SHELF_EYE_LEVEL",
         "Top": "GOND_pet_care_pet_supplies_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pet_care_pet_supplies"
     },
     {
       "id": "GOND-pet_care-pet_treats",
-      "sketchup_object_name": "GOND_pet_care_pet_treats",
       "department": "Pet Care",
       "category": "Pet Treats",
       "fixture_type": "Gondola Shelving",
@@ -3507,11 +3506,11 @@
         "Middle": "GOND_pet_care_pet_treats_SHELF_MIDDLE",
         "Eye-Level": "GOND_pet_care_pet_treats_SHELF_EYE_LEVEL",
         "Top": "GOND_pet_care_pet_treats_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pet_care_pet_treats"
     },
     {
       "id": "GOND-pharmacy__otc-cold_and_allergy",
-      "sketchup_object_name": "GOND_pharmacy__otc_cold_and_allergy",
       "department": "Pharmacy / OTC",
       "category": "Cold & Allergy",
       "fixture_type": "Gondola Shelving",
@@ -3540,11 +3539,11 @@
         "Middle": "GOND_pharmacy__otc_cold_and_allergy_SHELF_MIDDLE",
         "Eye-Level": "GOND_pharmacy__otc_cold_and_allergy_SHELF_EYE_LEVEL",
         "Top": "GOND_pharmacy__otc_cold_and_allergy_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pharmacy__otc_cold_and_allergy"
     },
     {
       "id": "GOND-pharmacy__otc-diabetic_care",
-      "sketchup_object_name": "GOND_pharmacy__otc_diabetic_care",
       "department": "Pharmacy / OTC",
       "category": "Diabetic Care",
       "fixture_type": "Gondola Shelving",
@@ -3573,11 +3572,11 @@
         "Middle": "GOND_pharmacy__otc_diabetic_care_SHELF_MIDDLE",
         "Eye-Level": "GOND_pharmacy__otc_diabetic_care_SHELF_EYE_LEVEL",
         "Top": "GOND_pharmacy__otc_diabetic_care_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pharmacy__otc_diabetic_care"
     },
     {
       "id": "GOND-pharmacy__otc-digestive_health",
-      "sketchup_object_name": "GOND_pharmacy__otc_digestive_health",
       "department": "Pharmacy / OTC",
       "category": "Digestive Health",
       "fixture_type": "Gondola Shelving",
@@ -3606,11 +3605,11 @@
         "Middle": "GOND_pharmacy__otc_digestive_health_SHELF_MIDDLE",
         "Eye-Level": "GOND_pharmacy__otc_digestive_health_SHELF_EYE_LEVEL",
         "Top": "GOND_pharmacy__otc_digestive_health_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pharmacy__otc_digestive_health"
     },
     {
       "id": "GOND-pharmacy__otc-pain_relief",
-      "sketchup_object_name": "GOND_pharmacy__otc_pain_relief",
       "department": "Pharmacy / OTC",
       "category": "Pain Relief",
       "fixture_type": "Gondola Shelving",
@@ -3639,11 +3638,11 @@
         "Middle": "GOND_pharmacy__otc_pain_relief_SHELF_MIDDLE",
         "Eye-Level": "GOND_pharmacy__otc_pain_relief_SHELF_EYE_LEVEL",
         "Top": "GOND_pharmacy__otc_pain_relief_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pharmacy__otc_pain_relief"
     },
     {
       "id": "GOND-pharmacy__otc-sleep_aids",
-      "sketchup_object_name": "GOND_pharmacy__otc_sleep_aids",
       "department": "Pharmacy / OTC",
       "category": "Sleep Aids",
       "fixture_type": "Gondola Shelving",
@@ -3672,11 +3671,11 @@
         "Middle": "GOND_pharmacy__otc_sleep_aids_SHELF_MIDDLE",
         "Eye-Level": "GOND_pharmacy__otc_sleep_aids_SHELF_EYE_LEVEL",
         "Top": "GOND_pharmacy__otc_sleep_aids_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pharmacy__otc_sleep_aids"
     },
     {
       "id": "GOND-pharmacy__otc-vitamins_and_supplements",
-      "sketchup_object_name": "GOND_pharmacy__otc_vitamins_and_supplements",
       "department": "Pharmacy / OTC",
       "category": "Vitamins & Supplements",
       "fixture_type": "Gondola Shelving",
@@ -3705,11 +3704,11 @@
         "Middle": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_MIDDLE",
         "Eye-Level": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_EYE_LEVEL",
         "Top": "GOND_pharmacy__otc_vitamins_and_supplements_SHELF_TOP"
-      }
+      },
+      "object_label": "GOND_pharmacy__otc_vitamins_and_supplements"
     },
     {
       "id": "PRODT-produce-fresh_fruit",
-      "sketchup_object_name": "PRODT_produce_fresh_fruit",
       "department": "Produce",
       "category": "Fresh Fruit",
       "fixture_type": "Produce Table/Case",
@@ -3738,11 +3737,11 @@
         "Middle": "PRODT_produce_fresh_fruit_SHELF_MIDDLE",
         "Eye-Level": "PRODT_produce_fresh_fruit_SHELF_EYE_LEVEL",
         "Top": "PRODT_produce_fresh_fruit_SHELF_TOP"
-      }
+      },
+      "object_label": "PRODT_produce_fresh_fruit"
     },
     {
       "id": "PRODT-produce-fresh_herbs",
-      "sketchup_object_name": "PRODT_produce_fresh_herbs",
       "department": "Produce",
       "category": "Fresh Herbs",
       "fixture_type": "Produce Table/Case",
@@ -3771,11 +3770,11 @@
         "Middle": "PRODT_produce_fresh_herbs_SHELF_MIDDLE",
         "Eye-Level": "PRODT_produce_fresh_herbs_SHELF_EYE_LEVEL",
         "Top": "PRODT_produce_fresh_herbs_SHELF_TOP"
-      }
+      },
+      "object_label": "PRODT_produce_fresh_herbs"
     },
     {
       "id": "PRODT-produce-fresh_vegetables",
-      "sketchup_object_name": "PRODT_produce_fresh_vegetables",
       "department": "Produce",
       "category": "Fresh Vegetables",
       "fixture_type": "Produce Table/Case",
@@ -3804,11 +3803,11 @@
         "Middle": "PRODT_produce_fresh_vegetables_SHELF_MIDDLE",
         "Eye-Level": "PRODT_produce_fresh_vegetables_SHELF_EYE_LEVEL",
         "Top": "PRODT_produce_fresh_vegetables_SHELF_TOP"
-      }
+      },
+      "object_label": "PRODT_produce_fresh_vegetables"
     },
     {
       "id": "PRODT-produce-organic_produce",
-      "sketchup_object_name": "PRODT_produce_organic_produce",
       "department": "Produce",
       "category": "Organic Produce",
       "fixture_type": "Produce Table/Case",
@@ -3837,11 +3836,11 @@
         "Middle": "PRODT_produce_organic_produce_SHELF_MIDDLE",
         "Eye-Level": "PRODT_produce_organic_produce_SHELF_EYE_LEVEL",
         "Top": "PRODT_produce_organic_produce_SHELF_TOP"
-      }
+      },
+      "object_label": "PRODT_produce_organic_produce"
     },
     {
       "id": "RIC-produce-packaged_salads",
-      "sketchup_object_name": "RIC_produce_packaged_salads",
       "department": "Produce",
       "category": "Packaged Salads",
       "fixture_type": "Reach-In Cooler",
@@ -3870,13 +3869,13 @@
         "Middle": "RIC_produce_packaged_salads_SHELF_MIDDLE",
         "Eye-Level": "RIC_produce_packaged_salads_SHELF_EYE_LEVEL",
         "Top": "RIC_produce_packaged_salads_SHELF_TOP"
-      }
+      },
+      "object_label": "RIC_produce_packaged_salads"
     }
   ],
   "impulse_secondary_fixtures": [
     {
       "id": "ENDCAP-01",
-      "sketchup_object_name": "ENDCAP_01",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3884,11 +3883,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_01"
     },
     {
       "id": "ENDCAP-02",
-      "sketchup_object_name": "ENDCAP_02",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3896,11 +3895,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_02"
     },
     {
       "id": "ENDCAP-03",
-      "sketchup_object_name": "ENDCAP_03",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3908,11 +3907,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_03"
     },
     {
       "id": "ENDCAP-04",
-      "sketchup_object_name": "ENDCAP_04",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3920,11 +3919,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_04"
     },
     {
       "id": "ENDCAP-05",
-      "sketchup_object_name": "ENDCAP_05",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3932,11 +3931,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_05"
     },
     {
       "id": "ENDCAP-06",
-      "sketchup_object_name": "ENDCAP_06",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3944,11 +3943,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_06"
     },
     {
       "id": "ENDCAP-07",
-      "sketchup_object_name": "ENDCAP_07",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3956,11 +3955,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_07"
     },
     {
       "id": "ENDCAP-08",
-      "sketchup_object_name": "ENDCAP_08",
       "fixture_type": "End Cap / Seasonal Endcap Display",
       "note": "One per main aisle end, per 'End-of-aisle floor display' / 'Seasonal endcap display' in SKU Placements.",
       "draw_guidance": {
@@ -3968,11 +3967,11 @@
         "depth_ft": 2.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENDCAP_08"
     },
     {
       "id": "PROMO-01",
-      "sketchup_object_name": "PROMO_01",
       "fixture_type": "Front-of-Store Promotional Display",
       "note": "Matches 'Front-of-store promotional display' Location Description.",
       "draw_guidance": {
@@ -3980,11 +3979,11 @@
         "depth_ft": 3.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "PROMO_01"
     },
     {
       "id": "PROMO-02",
-      "sketchup_object_name": "PROMO_02",
       "fixture_type": "Front-of-Store Promotional Display",
       "note": "Matches 'Front-of-store promotional display' Location Description.",
       "draw_guidance": {
@@ -3992,11 +3991,11 @@
         "depth_ft": 3.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "PROMO_02"
     },
     {
       "id": "PROMO-03",
-      "sketchup_object_name": "PROMO_03",
       "fixture_type": "Front-of-Store Promotional Display",
       "note": "Matches 'Front-of-store promotional display' Location Description.",
       "draw_guidance": {
@@ -4004,11 +4003,11 @@
         "depth_ft": 3.0,
         "width_ft": 4.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "PROMO_03"
     },
     {
       "id": "CHKIMPULSE-01",
-      "sketchup_object_name": "CHKIMPULSE_01",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4016,11 +4015,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_01"
     },
     {
       "id": "CHKIMPULSE-02",
-      "sketchup_object_name": "CHKIMPULSE_02",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4028,11 +4027,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_02"
     },
     {
       "id": "CHKIMPULSE-03",
-      "sketchup_object_name": "CHKIMPULSE_03",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4040,11 +4039,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_03"
     },
     {
       "id": "CHKIMPULSE-04",
-      "sketchup_object_name": "CHKIMPULSE_04",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4052,11 +4051,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_04"
     },
     {
       "id": "CHKIMPULSE-05",
-      "sketchup_object_name": "CHKIMPULSE_05",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4064,11 +4063,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_05"
     },
     {
       "id": "CHKIMPULSE-06",
-      "sketchup_object_name": "CHKIMPULSE_06",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4076,11 +4075,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_06"
     },
     {
       "id": "CHKIMPULSE-07",
-      "sketchup_object_name": "CHKIMPULSE_07",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4088,11 +4087,11 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_07"
     },
     {
       "id": "CHKIMPULSE-08",
-      "sketchup_object_name": "CHKIMPULSE_08",
       "fixture_type": "Checkout Lane Impulse Display",
       "note": "Matches 'Checkout lane impulse display' Location Description.",
       "draw_guidance": {
@@ -4100,123 +4099,123 @@
         "depth_ft": 1.0,
         "width_ft": 2.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHKIMPULSE_08"
     }
   ],
   "service_spaces": [
     {
       "id": "CHECKOUT-01",
-      "sketchup_object_name": "CHECKOUT_01",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_01"
     },
     {
       "id": "CHECKOUT-02",
-      "sketchup_object_name": "CHECKOUT_02",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_02"
     },
     {
       "id": "CHECKOUT-03",
-      "sketchup_object_name": "CHECKOUT_03",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_03"
     },
     {
       "id": "CHECKOUT-04",
-      "sketchup_object_name": "CHECKOUT_04",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_04"
     },
     {
       "id": "CHECKOUT-05",
-      "sketchup_object_name": "CHECKOUT_05",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_05"
     },
     {
       "id": "CHECKOUT-06",
-      "sketchup_object_name": "CHECKOUT_06",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_06"
     },
     {
       "id": "CHECKOUT-07",
-      "sketchup_object_name": "CHECKOUT_07",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_07"
     },
     {
       "id": "CHECKOUT-08",
-      "sketchup_object_name": "CHECKOUT_08",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 6.0,
         "width_ft": 5.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_08"
     },
     {
       "id": "SELFCHECKOUT-01",
-      "sketchup_object_name": "SELFCHECKOUT_01",
       "space_type": "checkout",
       "draw_guidance": {
         "height_ft": 4.0,
         "depth_ft": 4.0,
         "width_ft": 16.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "SELFCHECKOUT_01"
     },
     {
       "id": "CUSTSVC-01",
-      "sketchup_object_name": "CUSTSVC_01",
       "space_type": "service_station",
       "draw_guidance": {
         "height_ft": 3.5,
         "depth_ft": 4.0,
         "width_ft": 10.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "CUSTSVC_01"
     },
     {
       "id": "PHARMACY-01",
-      "sketchup_object_name": "PHARMACY_01",
       "space_type": "service_station",
       "note": "Distinct from Pharmacy/OTC gondola shelving fixtures \u2014 this is the pharmacist service counter.",
       "draw_guidance": {
@@ -4224,11 +4223,11 @@
         "depth_ft": 6.0,
         "width_ft": 12.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "PHARMACY_01"
     },
     {
       "id": "INSTORE-COFFEE-01",
-      "sketchup_object_name": "INSTORE_COFFEE_01",
       "space_type": "service_station",
       "note": "Matches 'In-store coffee shop' Location Description already used for Coffee category Cross-Merchandised placements.",
       "draw_guidance": {
@@ -4236,77 +4235,77 @@
         "depth_ft": 10.0,
         "width_ft": 14.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "INSTORE_COFFEE_01"
     },
     {
       "id": "ENTRANCE-01",
-      "sketchup_object_name": "ENTRANCE_01",
       "space_type": "door",
       "draw_guidance": {
         "height_ft": 8.0,
         "depth_ft": 1.0,
         "width_ft": 8.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ENTRANCE_01"
     },
     {
       "id": "EXIT-01",
-      "sketchup_object_name": "EXIT_01",
       "space_type": "door",
       "draw_guidance": {
         "height_ft": 8.0,
         "depth_ft": 1.0,
         "width_ft": 8.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "EXIT_01"
     },
     {
       "id": "RESTROOM-01",
-      "sketchup_object_name": "RESTROOM_01",
       "space_type": "restroom",
       "draw_guidance": {
         "height_ft": 9.0,
         "depth_ft": 10.0,
         "width_ft": 10.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "RESTROOM_01"
     },
     {
       "id": "RESTROOM-02",
-      "sketchup_object_name": "RESTROOM_02",
       "space_type": "restroom",
       "draw_guidance": {
         "height_ft": 9.0,
         "depth_ft": 10.0,
         "width_ft": 10.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "RESTROOM_02"
     },
     {
       "id": "RECEIVING-01",
-      "sketchup_object_name": "RECEIVING_01",
       "space_type": "receiving",
       "draw_guidance": {
         "height_ft": 12.0,
         "depth_ft": 30.0,
         "width_ft": 40.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "RECEIVING_01"
     },
     {
       "id": "BACKROOM-01",
-      "sketchup_object_name": "BACKROOM_01",
       "space_type": "backroom",
       "draw_guidance": {
         "height_ft": 12.0,
         "depth_ft": 40.0,
         "width_ft": 60.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "BACKROOM_01"
     },
     {
       "id": "ONLINE-01",
-      "sketchup_object_name": "ONLINE_01",
       "space_type": "backroom",
       "note": "Ch. 1.6: online order staging / curbside pickup area, a newer function carved out of remodels.",
       "draw_guidance": {
@@ -4314,14 +4313,15 @@
         "depth_ft": 15.0,
         "width_ft": 20.0
       },
-      "geometry": null
+      "geometry": null,
+      "object_label": "ONLINE_01"
     },
     {
       "id": "CHECKOUT-ZONE-TOTAL",
-      "sketchup_object_name": "CHECKOUT_ZONE_TOTAL",
       "space_type": "checkout",
       "note": "Coarse placeholder for the whole front-end/checkout area as one block, for use before individual lanes are modeled. Superseded by CHECKOUT_LANE_01..08 + SELFCHECKOUT_BANK_01 once those are drawn.",
-      "geometry": null
+      "geometry": null,
+      "object_label": "CHECKOUT_ZONE_TOTAL"
     }
   ],
   "counts": {
@@ -4331,8 +4331,8 @@
   },
   "store_footprint": {
     "id": "STORE-FLOOR",
-    "sketchup_object_name": "STORE_FLOOR",
     "note": "Overall store floor footprint/boundary (building envelope at ground level).",
-    "geometry": null
+    "geometry": null,
+    "object_label": "STORE_FLOOR"
   }
 }
